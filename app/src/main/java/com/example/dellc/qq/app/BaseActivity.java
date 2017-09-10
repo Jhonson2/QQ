@@ -19,7 +19,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     //初始化
-    private void init() {
+    protected void init() {
 
     }
 

@@ -2,6 +2,7 @@ package com.example.dellc.qq.presenter.impl;
 
 import com.example.dellc.qq.presenter.SpalshPersenter;
 import com.example.dellc.qq.view.SpalshView;
+import com.hyphenate.chat.EMClient;
 
 /**
  * SpalshPresenterImpl层的实现类
@@ -31,6 +32,6 @@ public class SpalshPresenterImpl implements SpalshPersenter {
 
     //暂时写没有登录
     private boolean isLoginedIn() {
-        return false;
+        return EMClient.getInstance().isLoggedInBefore()&&EMClient.getInstance().isConnected();
     }
 }

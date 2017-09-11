@@ -9,6 +9,6 @@ import com.example.dellc.qq.BaseActivity;
 public class LoginActivity extends BaseActivity {
     @Override
     public int getLayoutResID() {
-        return R.layout.login_activity;
+        return R.layout.activity_login;
     }
 }

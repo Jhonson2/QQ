@@ -39,9 +39,7 @@ public class SplashActivity extends BaseActivity implements SpalshView{
     @Override
     public void onLoginIn() {
         //登录后，跳转主界面
-        Intent intent=new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+      goTo(MainActivity.class);
     }
 
     @Override
@@ -50,10 +48,7 @@ public class SplashActivity extends BaseActivity implements SpalshView{
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-                startActivity(intent);
-
-
+              goTo(LoginActivity.class);
             }
         },DELAY_TIME);
     }

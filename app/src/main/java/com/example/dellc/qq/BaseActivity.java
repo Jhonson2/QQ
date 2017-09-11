@@ -1,4 +1,4 @@
-package com.example.dellc.qq.app;
+package com.example.dellc.qq;
 
 import android.os.Bundle;
 

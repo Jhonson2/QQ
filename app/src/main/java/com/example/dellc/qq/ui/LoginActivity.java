@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dellc.qq.BaseActivity;
+import com.example.dellc.qq.MainActivity;
 import com.example.dellc.qq.R;
 import com.example.dellc.qq.presenter.LoginPersenter;
 import com.example.dellc.qq.presenter.impl.LoginPersenterImpl;
@@ -78,5 +79,34 @@ public class LoginActivity extends BaseActivity implements LoginView {
         String userName=mUserName.getText().toString().trim();
         String password=mPassword.getText().toString().trim();
         mLoginPersenter.login(userName,password);
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        hideProgress();
+        goTo(MainActivity.class);
+    }
+
+    @Override
+    public void onLoginFailed() {
+        hideProgress();
+        toast(getString(R.string.login_failed));
+    }
+
+    @Override
+    public void onUserNameError() {
+        mUserName.setError(getString(R.string.user_name_error));
+
+    }
+
+    @Override
+    public void onPasswordError() {
+        mPassword.setError(getString(R.string.password_error));
+    }
+
+    @Override
+    public void onStartLogin() {
+        showProgress(getString(R.string.logining));
+
     }
 }

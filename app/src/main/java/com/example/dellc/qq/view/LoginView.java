@@ -6,4 +6,13 @@ package com.example.dellc.qq.view;
 
 public interface LoginView {
 
+    void onLoginSuccess();
+
+    void onLoginFailed();
+
+    void onPasswordError();
+
+    void onUserNameError();
+
+    void onStartLogin();
 }

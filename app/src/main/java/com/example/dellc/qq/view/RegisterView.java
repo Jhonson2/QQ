@@ -14,4 +14,7 @@ public interface RegisterView {
     void onStarRegister();
 
     void onRegisterFailed();
+
+    void onRegisterSuccess();
+
 }

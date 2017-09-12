@@ -112,4 +112,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
         hideProgress();
         toast(getString(R.string.register_failed));
     }
+
+    @Override
+    public void onRegisterSuccess() {
+        hideProgress();
+        toast(getString(R.string.register_success));
+        //跳转登录界面
+        goTo(LoginActivity.class);
+    }
 }

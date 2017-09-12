@@ -1,8 +1,16 @@
 package com.example.dellc.qq.presenter.impl;
 
+import android.widget.Toast;
+
+import com.example.dellc.qq.model.User;
 import com.example.dellc.qq.presenter.RegisterPersenter;
+import com.example.dellc.qq.ui.RegisterActivity;
 import com.example.dellc.qq.utils.StringUtils;
 import com.example.dellc.qq.view.RegisterView;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by dellc on 2017/9/12.
@@ -27,7 +35,8 @@ public class RegisterPersenterImpl  implements RegisterPersenter{
                 if(password.equals(confirmPassword)){
                     //通知view开始注册
                     mRegisterView.onStarRegister();
-
+                    registerBmob(userName,password);
+                    
                 }else{
                     //通知确认密码错误
                     mRegisterView.onConfirmPasswordError();
@@ -43,4 +52,28 @@ public class RegisterPersenterImpl  implements RegisterPersenter{
             mRegisterView.onUserNameError();
         }
     }
+
+    private void registerBmob(final String userName, final String password) {
+        User user = new User(userName, password);
+        user.signUp(new SaveListener<User>() {
+            @Override
+            public void done(User user, BmobException e) {
+                if (e == null) {
+                    //注册成功
+                    //注册环信
+                    registerEaseMob(userName,password);
+                } else {
+                    //注册失败
+                    //通知View层注册失败
+                    mRegisterView.onRegisterFailed();
+                }
+            }
+        });
+
+    }
+
+    private void registerEaseMob(String userName, String password) {
+
+    }
+
 }

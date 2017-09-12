@@ -67,22 +67,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
         String password=mPassword.getText().toString().trim();
         String confirmPassword=mConfirmPassword.getText().toString().trim();
 
-      /*  BmobUser bmobUser=new BmobUser();
-        bmobUser.setUsername(userName);
-        bmobUser.setPassword(password);
-        bmobUser.signUp(new SaveListener<BmobUser>() {
-
-            @Override
-            public void done(BmobUser bmobUser, BmobException e) {
-                if(e==null){
-                    Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(RegisterActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });*/
 
         mRegisterPersenter.register(userName,password,confirmPassword);
     }
@@ -120,6 +104,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
 
     @Override
     public void onStarRegister() {
+        showProgress(getString(R.string.registering));
+    }
 
+    @Override
+    public void onRegisterFailed() {
+        hideProgress();
+        toast(getString(R.string.register_failed));
     }
 }

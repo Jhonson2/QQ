@@ -1,19 +1,24 @@
 package com.example.dellc.qq;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.example.dellc.qq.ui.RegisterActivity;
 
 import butterknife.ButterKnife;
 
-/**创建基类
+/**
+ * 创建基类
  * Created by dellc on 2017/9/10.
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+    private ProgressDialog mProgressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +35,30 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract int getLayoutResID();
 
-    protected void goTo(Class activity){
-        Intent intent=new Intent(this,activity);
+    protected void goTo(Class activity) {
+        Intent intent = new Intent(this, activity);
         startActivity(intent);
         finish();
+
+    }
+
+    protected void showProgress(String msg) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+        }
+        mProgressDialog.setMessage(msg);
+        mProgressDialog.show();
+    }
+
+    protected void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+
+    }
+
+    protected void toast(String msg) {
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
 
     }
 }

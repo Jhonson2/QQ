@@ -1,14 +1,20 @@
 package com.example.dellc.qq.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dellc.qq.BaseActivity;
 import com.example.dellc.qq.R;
+import com.example.dellc.qq.presenter.LoginPersenter;
+import com.example.dellc.qq.presenter.impl.LoginPersenterImpl;
+import com.example.dellc.qq.view.LoginView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +23,7 @@ import butterknife.OnClick;
 /**
  * Created by dellc on 2017/9/10.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginView {
 
     public static final String TAG = "LoginActivity";
 
@@ -30,21 +36,47 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.new_user)
     TextView mNewUser;
 
+    private LoginPersenter mLoginPersenter;
+
     @Override
     public int getLayoutResID() {
         return R.layout.activity_login;
+
     }
 
-
+    @Override
+    protected void init() {
+        super.init();
+        mLoginPersenter= new LoginPersenterImpl(this);
+        mPassword.setOnEditorActionListener(mOnEditorActionListener);
+    }
 
     @OnClick({R.id.login, R.id.new_user})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
+                login();
                 break;
             case R.id.new_user:
               goTo(RegisterActivity.class);
                 break;
         }
+    }
+
+    private EditText.OnEditorActionListener mOnEditorActionListener=new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId== EditorInfo.IME_ACTION_GO){
+                login();
+                return true;
+            }
+
+            return false;
+        }
+    };
+    private void login() {
+        String userName=mUserName.getText().toString().trim();
+        String password=mPassword.getText().toString().trim();
+        mLoginPersenter.login(userName,password);
     }
 }

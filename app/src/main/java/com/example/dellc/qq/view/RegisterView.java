@@ -5,4 +5,11 @@ package com.example.dellc.qq.view;
  */
 
 public interface RegisterView {
+    void onUserNameError();
+
+    void onPasswordError();
+
+    void onConfirmPasswordError();
+
+    void onStarRegister();
 }

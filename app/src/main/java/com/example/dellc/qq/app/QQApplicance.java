@@ -27,13 +27,14 @@ public class QQApplicance extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initEaseMob();
         initBmob();
+        initEaseMob();
+
     }
 
     private void initBmob() {
         //第一：默认初始化
-        Bmob.initialize(this, "671296413a45d4d9b4d8e6e7c7c32bdb");
+        Bmob.initialize(getApplicationContext(), "671296413a45d4d9b4d8e6e7c7c32bdb");
     }
 
     /*

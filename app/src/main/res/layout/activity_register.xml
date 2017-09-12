@@ -3,7 +3,54 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/login_bk">
+
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/avatar_9"/>
+
+    <EditText
+        android:id="@id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:hint="@string/user_name"
+        android:imeOptions="actionNext"
+        android:inputType="text"/>
+
+
+    <EditText
+        android:id="@id/password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:hint="@string/user_password"
+        android:imeOptions="actionNext"
+        android:inputType="numberPassword"/>
+
+    <EditText
+        android:id="@id/confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:hint="@string/comfirm_password"
+        android:imeOptions="actionGo"
+        android:inputType="numberPassword"/>
+
+    <Button
+        android:id="@id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:text="@string/register"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btn_login"/>
 
 
 </LinearLayout>

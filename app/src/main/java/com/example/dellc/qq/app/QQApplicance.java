@@ -12,6 +12,8 @@ import com.hyphenate.chat.EMOptions;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+
 /**
  * Created by dellc on 2017/9/11.
  */
@@ -26,6 +28,12 @@ public class QQApplicance extends Application {
     public void onCreate() {
         super.onCreate();
         initEaseMob();
+        initBmob();
+    }
+
+    private void initBmob() {
+        //第一：默认初始化
+        Bmob.initialize(this, "671296413a45d4d9b4d8e6e7c7c32bdb");
     }
 
     /*

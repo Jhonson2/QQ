@@ -1,8 +1,12 @@
 package com.example.dellc.qq.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -27,6 +31,7 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivity implements LoginView {
 
     public static final String TAG = "LoginActivity";
+    private final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0;
 
     @BindView(R.id.user_name)
     EditText mUserName;
@@ -48,7 +53,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     protected void init() {
         super.init();
-        mLoginPersenter= new LoginPersenterImpl(this);
+        mLoginPersenter = new LoginPersenterImpl(this);
         mPassword.setOnEditorActionListener(mOnEditorActionListener);
     }
 
@@ -56,18 +61,49 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
-                login();
+                if (checkIfHasWriteExternalStoragePermission()) {
+                    login();
+                } else {
+                    applyPermission();
+                }
                 break;
             case R.id.new_user:
-              goTo(RegisterActivity.class);
+                goTo(RegisterActivity.class);
                 break;
         }
     }
 
-    private EditText.OnEditorActionListener mOnEditorActionListener=new TextView.OnEditorActionListener() {
+    /*
+    * android6.0后，申请权限
+    * */
+    private void applyPermission() {
+        String[] permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        ActivityCompat.requestPermissions(this, permission, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_WRITE_EXTERNAL_STORAGE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    login();
+                }
+                break;
+        }
+    }
+
+    /*检查是否有写磁盘权限
+    * */
+    private boolean checkIfHasWriteExternalStoragePermission() {
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return permission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private EditText.OnEditorActionListener mOnEditorActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if(actionId== EditorInfo.IME_ACTION_GO){
+            if (actionId == EditorInfo.IME_ACTION_GO) {
                 login();
                 return true;
             }
@@ -75,11 +111,12 @@ public class LoginActivity extends BaseActivity implements LoginView {
             return false;
         }
     };
+
     private void login() {
         //hideKeyboard();
-        String userName=mUserName.getText().toString().trim();
-        String password=mPassword.getText().toString().trim();
-        mLoginPersenter.login(userName,password);
+        String userName = mUserName.getText().toString().trim();
+        String password = mPassword.getText().toString().trim();
+        mLoginPersenter.login(userName, password);
     }
 
     @Override

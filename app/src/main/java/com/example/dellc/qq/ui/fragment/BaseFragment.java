@@ -1,4 +1,4 @@
-package com.example.dellc.qq;
+package com.example.dellc.qq.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

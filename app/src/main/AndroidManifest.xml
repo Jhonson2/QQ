@@ -27,14 +27,14 @@
         android:name=".app.QQApplicance"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".ui.activity.MainActivity"></activity>
 
-        <activity android:name=".ui.LoginActivity"></activity>
+        <activity android:name=".ui.activity.LoginActivity"></activity>
 
-        <activity android:name=".ui.RegisterActivity"></activity>
+        <activity android:name=".ui.activity.RegisterActivity"></activity>
 
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,11 +1,8 @@
-package com.example.dellc.qq.ui;
+package com.example.dellc.qq.ui.activity;
 
-import android.content.Intent;
 import android.os.Handler;
 
-import com.example.dellc.qq.MainActivity;
 import com.example.dellc.qq.R;
-import com.example.dellc.qq.BaseActivity;
 import com.example.dellc.qq.presenter.SpalshPersenter;
 import com.example.dellc.qq.presenter.impl.SpalshPresenterImpl;
 import com.example.dellc.qq.view.SpalshView;

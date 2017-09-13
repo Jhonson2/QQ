@@ -1,26 +1,19 @@
-package com.example.dellc.qq.ui;
+package com.example.dellc.qq.ui.activity;
 
 
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.dellc.qq.BaseActivity;
 import com.example.dellc.qq.R;
 import com.example.dellc.qq.presenter.RegisterPersenter;
 import com.example.dellc.qq.presenter.impl.RegisterPersenterImpl;
 import com.example.dellc.qq.view.RegisterView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by dellc on 2017/9/11.

@@ -1,17 +1,18 @@
-package com.example.dellc.qq;
+package com.example.dellc.qq.ui.activity;
 
 
-import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
+import com.example.dellc.qq.R;
+import com.example.dellc.qq.factory.FragmentFactory;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
-import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
@@ -21,6 +22,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.bottomBar)
     BottomBar mBottomBar;
 
+    private FragmentManager mFragmentManager;
+
     @Override
     public int getLayoutResID() {
         return R.layout.activity_main;
@@ -29,6 +32,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         super.init();
+        mFragmentManager=getSupportFragmentManager();
+
         mBottomBar.setOnTabSelectListener(mOnTabSelectListener);
         BottomBarTab tabWithId=mBottomBar.getTabWithId(R.id.conversation);
         tabWithId.setBadgeCount(10);
@@ -38,7 +43,9 @@ public class MainActivity extends BaseActivity {
     private OnTabSelectListener mOnTabSelectListener=new OnTabSelectListener() {
         @Override
         public void onTabSelected(@IdRes int tabId) {
-
+           FragmentTransaction fragmentTransaction=mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, FragmentFactory.getInstance().getFragment(tabId));
+            fragmentTransaction.commit();
         }
     };
 

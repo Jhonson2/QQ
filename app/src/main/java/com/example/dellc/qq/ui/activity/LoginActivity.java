@@ -1,10 +1,7 @@
-package com.example.dellc.qq.ui;
+package com.example.dellc.qq.ui.activity;
 
 import android.Manifest;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.KeyEvent;
@@ -14,15 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.dellc.qq.BaseActivity;
-import com.example.dellc.qq.MainActivity;
 import com.example.dellc.qq.R;
 import com.example.dellc.qq.presenter.LoginPersenter;
 import com.example.dellc.qq.presenter.impl.LoginPersenterImpl;
 import com.example.dellc.qq.view.LoginView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**

@@ -1,22 +1,16 @@
 package com.example.dellc.qq.presenter.impl;
 
-import android.widget.Toast;
-
 import com.example.dellc.qq.app.Constant;
 import com.example.dellc.qq.model.User;
 import com.example.dellc.qq.presenter.RegisterPersenter;
-import com.example.dellc.qq.ui.RegisterActivity;
 import com.example.dellc.qq.utils.StringUtils;
 import com.example.dellc.qq.utils.ThreadUtils;
 import com.example.dellc.qq.view.RegisterView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-
-import static com.example.dellc.qq.app.Constant.ErroeCode.USER_ALREAND_EXIST;
 
 /**
  * Created by dellc on 2017/9/12.

@@ -1,4 +1,4 @@
-package com.example.dellc.qq;
+package com.example.dellc.qq.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
-import com.example.dellc.qq.ui.RegisterActivity;
 
 import butterknife.ButterKnife;
 

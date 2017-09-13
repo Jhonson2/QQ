@@ -1,5 +1,6 @@
 package com.example.dellc.qq.presenter.impl;
 
+import com.example.dellc.qq.adapter.EMCallBackAdapter;
 import com.example.dellc.qq.presenter.LoginPersenter;
 import com.example.dellc.qq.utils.StringUtils;
 import com.example.dellc.qq.view.LoginView;
@@ -33,7 +34,7 @@ public class LoginPersenterImpl implements LoginPersenter {
         }
     }
 
-    private EMCallBack mEMACallback=new EMCallBack() {
+    private EMCallBack mEMACallback=new EMCallBackAdapter() {
         @Override
         public void onSuccess() {
             //通知view登录成功
@@ -46,9 +47,6 @@ public class LoginPersenterImpl implements LoginPersenter {
             mLoginView.onLoginFailed();
         }
 
-        @Override
-        public void onProgress(int i, String s) {
 
-        }
     };
 }

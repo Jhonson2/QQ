@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@id/conversation"
+        icon="@mipmap/ic_conversation_selected_2"
+        title="@string/conversation" />
+    <tab
+        id="@id/contact"
+        icon="@mipmap/ic_contact_selected_2"
+        title="@string/contact" />
+    <tab
+        id="@id/dynamic"
+        icon="@mipmap/ic_plugin_selected_2"
+        title="@string/dynamic" />
+</tabs>

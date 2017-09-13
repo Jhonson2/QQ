@@ -123,4 +123,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
         //跳转登录界面
         goTo(LoginActivity.class);
     }
+
+    @Override
+    public void onUserNameExist() {
+        hideProgress();
+        toast(getString(R.string.user_name_exist));
+
+    }
 }

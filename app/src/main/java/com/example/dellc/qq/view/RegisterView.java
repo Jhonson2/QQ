@@ -17,4 +17,5 @@ public interface RegisterView {
 
     void onRegisterSuccess();
 
+    void onUserNameExist();
 }

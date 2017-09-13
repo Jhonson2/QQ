@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.dellc.qq.ui.RegisterActivity;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
+    private InputMethodManager mInputMethodManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void toast(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
+    }
+
+    /*
+    * 隐藏软键盘
+    */
+    protected void hideKeyboard() {
+        if (mInputMethodManager == null) {
+            mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        }
+        mInputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
     }
 }

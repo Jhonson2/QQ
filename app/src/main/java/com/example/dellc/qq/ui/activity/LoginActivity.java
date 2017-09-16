@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     };
 
     private void login() {
-        //hideKeyboard();
+        hideKeyboard();
         String userName = mUserName.getText().toString().trim();
         String password = mPassword.getText().toString().trim();
         mLoginPersenter.login(userName, password);

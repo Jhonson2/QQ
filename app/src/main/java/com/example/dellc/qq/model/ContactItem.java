@@ -9,6 +9,8 @@ public class ContactItem {
     private String imgUrl;
     private String userName;
 
+    public boolean showFirstLetter;//是否显示首字符
+
     public String getImgUrl() {
         return imgUrl;
     }

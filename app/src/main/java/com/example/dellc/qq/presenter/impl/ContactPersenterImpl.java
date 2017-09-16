@@ -35,8 +35,15 @@ public class ContactPersenterImpl  implements ContactPersenter{
                     List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
                     //将用户列表转换为List<ContactItem> mContactItem
                     for(int i=0;i<usernames.size();i++){
-                        ContactItem item=new ContactItem();
+                        ContactItem item=new ContactItem();//创建ContactItem
                         item.setUserName(usernames.get(i));
+
+                        //判断和上一个item的首字符是否一致，一致：隐藏首字符
+                        if(i>0 && item.getFristLetter().equals(mContactItem.get(i-1).getFristLetter())){
+                                item.showFirstLetter=false;
+                        }else {
+                            item.showFirstLetter=true;
+                        }
 
                         mContactItem.add(item);
 

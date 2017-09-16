@@ -40,8 +40,16 @@ public class ContactItemView extends RelativeLayout {
 
 
     public void bindView(ContactItem contactItem) {
-        mFirstLetter.setText(contactItem.getFristLetter());
+
         mUserName.setText(contactItem.getUserName());
+
+        //首字符只显示一次
+        if(contactItem.showFirstLetter){
+            mFirstLetter.setVisibility(VISIBLE);
+            mFirstLetter.setText(contactItem.getFristLetter());
+        }else{
+            mFirstLetter.setVisibility(GONE);
+        }
 
     }
 }

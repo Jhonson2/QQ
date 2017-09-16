@@ -1,12 +1,14 @@
 package com.example.dellc.qq.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dellc.qq.R;
+import com.example.dellc.qq.adapter.ContactListAdapter;
 import com.example.dellc.qq.presenter.ContactPersenter;
 import com.example.dellc.qq.presenter.impl.ContactPersenterImpl;
 import com.example.dellc.qq.view.ContactView;
@@ -30,6 +32,7 @@ public class ContactFragment extends BaseFragment implements ContactView{
     RecyclerView mRecyclerView;
 
     private ContactPersenter mContactPersenter;
+    private ContactListAdapter mContactListAdapter;
 
     @Override
     public int getLayoutID() {
@@ -42,9 +45,18 @@ public class ContactFragment extends BaseFragment implements ContactView{
         mContactPersenter=new ContactPersenterImpl(this);
         mTitle.setText(getString(R.string.contact));
         mAdd.setVisibility(View.VISIBLE);
+        
+        initRecycleView();
 
         //加载联系人数据
         mContactPersenter.loadContacts();
+    }
+
+    private void initRecycleView() {
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mContactListAdapter=new ContactListAdapter(getContext(),null);
+        mRecyclerView.setAdapter(mContactListAdapter);
     }
 
     @OnClick(R.id.add)

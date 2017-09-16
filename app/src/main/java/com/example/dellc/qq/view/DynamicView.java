@@ -5,4 +5,9 @@ package com.example.dellc.qq.view;
  */
 
 public interface DynamicView {
+    void onLogoutFailed();
+
+    void onLogoutSuccess();
+
+    void onStartLogout();
 }

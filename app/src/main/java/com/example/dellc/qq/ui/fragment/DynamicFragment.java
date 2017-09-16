@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.dellc.qq.R;
 import com.example.dellc.qq.presenter.DynamicPresenter;
 import com.example.dellc.qq.presenter.impl.DynamicPresenterImpl;
+import com.example.dellc.qq.ui.activity.LoginActivity;
 import com.example.dellc.qq.view.DynamicView;
 import com.hyphenate.chat.EMClient;
 
@@ -51,5 +52,25 @@ public class DynamicFragment extends BaseFragment implements DynamicView {
     @OnClick(R.id.logout)
     public void onClick() {
         mDynamicPresenter.logout();
+    }
+
+    @Override
+    public void onLogoutFailed() {
+        hideProgress();
+        toast(getString(R.string.logoutFailed));
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+        hideProgress();
+        toast(getString(R.string.logoutSuccess));
+        //跳转到登录界面
+        goTo(LoginActivity.class);
+
+    }
+
+    @Override
+    public void onStartLogout() {
+        showProgress(getString(R.string.logouting));
     }
 }

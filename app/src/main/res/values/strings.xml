@@ -21,5 +21,8 @@
     <string name="contact">联系人</string>
     <string name="dynamic">动态</string>
     <string name="logout">退(%s)出</string>
+    <string name="logoutFailed">退出登录失败</string>
+    <string name="logoutSuccess">退出登录成功</string>
+    <string name="logouting">正在退出登录...</string>
 
 </resources>

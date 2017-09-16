@@ -5,4 +5,7 @@ package com.example.dellc.qq.view;
  */
 
 public interface ContactView {
+    void onLoadContactsSuccess();
+
+    void onLoadContactsFailed();
 }

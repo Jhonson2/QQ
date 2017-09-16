@@ -50,4 +50,15 @@ public class ContactFragment extends BaseFragment implements ContactView{
     @OnClick(R.id.add)
     public void onClick() {
     }
+
+    @Override
+    public void onLoadContactsSuccess() {
+        toast(getString(R.string.load_contacts_success));
+
+    }
+
+    @Override
+    public void onLoadContactsFailed() {
+        toast(getString(R.string.load_contacts_failed));
+    }
 }

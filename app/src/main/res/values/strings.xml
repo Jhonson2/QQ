@@ -24,5 +24,7 @@
     <string name="logoutFailed">退出登录失败</string>
     <string name="logoutSuccess">退出登录成功</string>
     <string name="logouting">正在退出登录...</string>
+    <string name="load_contacts_success">加载联系人成功</string>
+    <string name="load_contacts_failed">加载联系人失败</string>
 
 </resources>

@@ -6,4 +6,23 @@
     android:layout_height="match_parent">
 
    <include layout="@layout/header"/>
+
+   <ImageView
+       android:layout_width="60dp"
+       android:layout_height="60dp"
+       android:src="@mipmap/avatar5"
+       android:layout_gravity="center_horizontal"
+       android:layout_marginTop="30dp"
+       android:layout_marginBottom="20dp"/>
+
+   <Button
+       android:id="@id/logout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="10dp"
+       android:text="@string/logout"
+       android:textAllCaps="false"
+       android:textColor="@android:color/white"
+       android:textSize="22sp"
+       android:background="@drawable/btn_logout"/>
 </LinearLayout>

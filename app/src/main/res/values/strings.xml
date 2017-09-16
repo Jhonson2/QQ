@@ -20,5 +20,6 @@
     <string name="conversation">消息</string>
     <string name="contact">联系人</string>
     <string name="dynamic">动态</string>
+    <string name="logout">退(%s)出</string>
 
 </resources>

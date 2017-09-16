@@ -1,11 +1,13 @@
 package com.example.dellc.qq.presenter.impl;
 
+import com.example.dellc.qq.model.ContactItem;
 import com.example.dellc.qq.presenter.ContactPersenter;
 import com.example.dellc.qq.utils.ThreadUtils;
 import com.example.dellc.qq.view.ContactView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,8 +17,13 @@ import java.util.List;
 public class ContactPersenterImpl  implements ContactPersenter{
     private ContactView mContactView;
 
+    private List<ContactItem> mContactItem;
+
+
+
     public ContactPersenterImpl(ContactView contactView){
         mContactView=contactView;
+        mContactItem=new ArrayList<ContactItem>();
     }
     @Override
     public void loadContacts() {
@@ -26,10 +33,17 @@ public class ContactPersenterImpl  implements ContactPersenter{
                 try {
                     //没有异常，加载成功
                     List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
-                    //加载成功，通知View层
+                    //将用户列表转换为List<ContactItem> mContactItem
+                    for(int i=0;i<usernames.size();i++){
+                        ContactItem item=new ContactItem();
+                        item.setUserName(usernames.get(i));
 
+                        mContactItem.add(item);
+
+                    }
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
+                        //加载成功，通知View层、
                         public void run() {
                             mContactView.onLoadContactsSuccess();
                         }
@@ -47,5 +61,10 @@ public class ContactPersenterImpl  implements ContactPersenter{
             }
         });
 
+    }
+
+    @Override
+    public List<ContactItem> getContacts() {
+        return mContactItem;
     }
 }

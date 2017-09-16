@@ -55,7 +55,7 @@ public class ContactFragment extends BaseFragment implements ContactView{
     private void initRecycleView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mContactListAdapter=new ContactListAdapter(getContext(),null);
+        mContactListAdapter=new ContactListAdapter(getContext(),mContactPersenter.getContacts());
         mRecyclerView.setAdapter(mContactListAdapter);
     }
 
@@ -66,7 +66,8 @@ public class ContactFragment extends BaseFragment implements ContactView{
     @Override
     public void onLoadContactsSuccess() {
         toast(getString(R.string.load_contacts_success));
-
+        //刷新列表
+        mContactListAdapter.notifyDataSetChanged();
     }
 
     @Override

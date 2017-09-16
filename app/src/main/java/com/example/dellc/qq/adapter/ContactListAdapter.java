@@ -11,7 +11,7 @@ import java.util.List;
  * Created by dellc on 2017/9/16.
  */
 
-public class ContactListAdapter extends RecyclerView.Adapter{
+public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactListItemViewHolder>{
     private Context mContext;
     private List<ContactItem> mContactItems;
 
@@ -23,19 +23,19 @@ public class ContactListAdapter extends RecyclerView.Adapter{
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ContactListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new ContactListItemViewHolder(new ContactItemView(mContext));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(ContactListItemViewHolder holder, int position) {
+        holder.mContactItemView.bindView(mContactItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return mContactItems.size();
     }
 
     public class  ContactListItemViewHolder extends RecyclerView.ViewHolder {

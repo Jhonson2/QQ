@@ -22,6 +22,8 @@ public class SlideBar extends View {
     //暂时写20
     private float mTextSize;
 
+    private float mTextBaseline;
+
     public SlideBar(Context context) {
         this(context, null);
     }
@@ -41,16 +43,21 @@ public class SlideBar extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mTextSize = h * 1.0f / SECTIONS.length;
+        mTextSize = h * 1.0f / SECTIONS.length;//计算分配给各个字符的高度
+        Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
+        float mTextHeight = fontMetrics.descent - fontMetrics.ascent;//获取绘制字符的实际高度
+        mTextBaseline = mTextSize / 2 + mTextHeight/2 - fontMetrics.descent;//计算字符居中时的baseline
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         float x = getWidth() * 1.0f / 2;
-        float y = mTextSize;
+        //float y = mTextSize;
+        float baseline = mTextBaseline;
         for (int i = 0; i < SECTIONS.length; i++) {
-            canvas.drawText(SECTIONS[i], x, y, mPaint);
-            y += mTextSize;
+            canvas.drawText(SECTIONS[i], x, baseline, mPaint);
+            baseline+= mTextSize;
         }
     }
 }

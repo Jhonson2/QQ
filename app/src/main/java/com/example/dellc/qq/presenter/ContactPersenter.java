@@ -12,4 +12,6 @@ public interface ContactPersenter {
     void loadContacts();
 
     List<ContactItem> getContacts();
+
+    void refreshContacts();
 }

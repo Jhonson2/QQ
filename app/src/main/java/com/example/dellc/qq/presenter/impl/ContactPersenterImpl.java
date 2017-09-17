@@ -74,4 +74,13 @@ public class ContactPersenterImpl  implements ContactPersenter{
     public List<ContactItem> getContacts() {
         return mContactItem;
     }
+
+    @Override
+    public void refreshContacts() {
+        //清空原来数据
+        mContactItem.clear();
+        // 重新再次加载
+        loadContacts();
+
+    }
 }

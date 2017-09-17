@@ -2,8 +2,10 @@ package com.example.dellc.qq.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.dellc.qq.R;
@@ -23,6 +25,10 @@ public class SlideBar extends View {
     private float mTextSize;
 
     private float mTextBaseline;
+    //当前下标
+    private int mCurrentIndex;
+
+    private onSlideChangeListener mOnSlideChangeListener;
 
     public SlideBar(Context context) {
         this(context, null);
@@ -46,7 +52,7 @@ public class SlideBar extends View {
         mTextSize = h * 1.0f / SECTIONS.length;//计算分配给各个字符的高度
         Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
         float mTextHeight = fontMetrics.descent - fontMetrics.ascent;//获取绘制字符的实际高度
-        mTextBaseline = mTextSize / 2 + mTextHeight/2 - fontMetrics.descent;//计算字符居中时的baseline
+        mTextBaseline = mTextSize / 2 + mTextHeight / 2 - fontMetrics.descent;//计算字符居中时的baseline
 
     }
 
@@ -57,7 +63,43 @@ public class SlideBar extends View {
         float baseline = mTextBaseline;
         for (int i = 0; i < SECTIONS.length; i++) {
             canvas.drawText(SECTIONS[i], x, baseline, mPaint);
-            baseline+= mTextSize;
+            baseline += mTextSize;
         }
+
+        }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                setBackgroundResource(R.drawable.bg_slide_bar);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //移动右侧某字符时,同时移动该字符的联系人
+                int index= (int) (event.getY()/mTextSize);
+                //位置下标出现变化时，才触摸ACTION_MOVE事件通知外界contactFragment
+                if(index !=mCurrentIndex){
+                    String firstLetter=SECTIONS[index];
+                    if(mOnSlideChangeListener !=null){
+                        mOnSlideChangeListener.onSildeChange(firstLetter);
+                }
+                    mCurrentIndex=index;
+                }
+
+                break;
+            case MotionEvent.ACTION_UP:
+                setBackgroundColor(Color.TRANSPARENT);
+                break;
+        }
+        return true;
+    }
+
+    public interface onSlideChangeListener{
+        void onSildeChange(String firstLetter);
+    }
+
+    public void  setOnSlideChangeListener(onSlideChangeListener l){
+        mOnSlideChangeListener=l;
+
     }
 }

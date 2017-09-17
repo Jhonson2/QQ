@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.example.dellc.qq.adapter.ContactListAdapter;
 import com.example.dellc.qq.presenter.ContactPersenter;
 import com.example.dellc.qq.presenter.impl.ContactPersenterImpl;
 import com.example.dellc.qq.view.ContactView;
+import com.example.dellc.qq.widget.SlideBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +37,8 @@ public class ContactFragment extends BaseFragment implements ContactView{
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshayout;
-
+    @BindView(R.id.slide_bar)
+    SlideBar mSlideBar;
 
     private ContactPersenter mContactPersenter;
     private ContactListAdapter mContactListAdapter;
@@ -51,14 +54,21 @@ public class ContactFragment extends BaseFragment implements ContactView{
         mContactPersenter=new ContactPersenterImpl(this);
         mTitle.setText(getString(R.string.contact));
         mAdd.setVisibility(View.VISIBLE);
-        
+        //初始化SlideBar()
+        initSlideBar();
         //初始化initRecycleView
         initRecycleView();
         //初始化刷新小圆圈
         initSwipeRefreshLayout();
 
+
+
         //加载联系人数据
         mContactPersenter.loadContacts();
+    }
+
+    private void initSlideBar() {
+        mSlideBar.setOnSlideChangeListener(mOnSlideChangeListener);
     }
 
     private void initSwipeRefreshLayout() {
@@ -101,6 +111,15 @@ public class ContactFragment extends BaseFragment implements ContactView{
 
         }
     };
+
+    private SlideBar.onSlideChangeListener mOnSlideChangeListener=
+            new SlideBar.onSlideChangeListener() {
+                @Override
+                public void onSildeChange(String firstLetter) {
+                    Log.d(TAG,"onSildeChange"+firstLetter);
+
+                }
+            };
 }
 
 

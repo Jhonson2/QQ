@@ -23,6 +23,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
         <com.example.dellc.qq.widget.SlideBar
+            android:id="@id/slide_bar"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_gravity="right" />

@@ -123,6 +123,14 @@ public class ContactFragment extends BaseFragment implements ContactView{
                   //显示悬浮文本
                   mFirstLetter.setVisibility(View.VISIBLE);
                   mFirstLetter.setText(firstLetter);
+
+                  //找出首字符的mFirstLetter联系人第一个
+                  for (int i=0;i<mContactPersenter.getContacts().size();i++){
+                      if(firstLetter.equals(mContactPersenter.getContacts().get(i).getFristLetter())){
+                          mRecyclerView.scrollToPosition(i);
+                          break;
+                      }
+                  }
               }
               @Override
               public void onSlidingFinish() {

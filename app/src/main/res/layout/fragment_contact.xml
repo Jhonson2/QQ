@@ -4,28 +4,42 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/header" />
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@id/recycler_view"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <com.example.dellc.qq.widget.SlideBar
             android:id="@id/slide_bar"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_gravity="right" />
+
+        <TextView
+            android:id="@id/first_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/ease_show_head_toast_bg"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="A"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            android:visibility="gone" />
     </FrameLayout>
+
+    <include layout="@layout/header" />
+
 </LinearLayout>

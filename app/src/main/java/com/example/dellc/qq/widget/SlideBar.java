@@ -24,9 +24,9 @@ public class SlideBar extends View {
     //暂时写20
     private float mTextSize;
 
-    private float mTextBaseline;
+    private float mTextBaseline = 0;
     //当前下标
-    private int mCurrentIndex;
+    private int mCurrentIndex = -1;
 
     private onSlideChangeListener mOnSlideChangeListener;
 
@@ -66,40 +66,55 @@ public class SlideBar extends View {
             baseline += mTextSize;
         }
 
-        }
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setBackgroundResource(R.drawable.bg_slide_bar);
+                notifyPositionChange(event);
                 break;
-            case MotionEvent.ACTION_MOVE:
-                //移动右侧某字符时,同时移动该字符的联系人
-                int index= (int) (event.getY()/mTextSize);
-                //位置下标出现变化时，才触摸ACTION_MOVE事件通知外界contactFragment
-                if(index !=mCurrentIndex){
-                    String firstLetter=SECTIONS[index];
-                    if(mOnSlideChangeListener !=null){
-                        mOnSlideChangeListener.onSildeChange(firstLetter);
-                }
-                    mCurrentIndex=index;
-                }
 
+            case MotionEvent.ACTION_MOVE:
+                notifyPositionChange(event);
                 break;
+
             case MotionEvent.ACTION_UP:
-                setBackgroundColor(Color.TRANSPARENT);
+                if (mOnSlideChangeListener != null) {
+                    setBackgroundColor(Color.TRANSPARENT);
+                    mOnSlideChangeListener.onSlidingFinish();
+                }
                 break;
         }
         return true;
     }
 
-    public interface onSlideChangeListener{
-        void onSildeChange(String firstLetter);
+    private void notifyPositionChange(MotionEvent event) {
+        //移动右侧某字符时,同时移动该字符的联系人
+        int index = (int) (event.getY() / mTextSize);
+        if (index < 0 || index > SECTIONS.length - 1) {
+            return;
+        }
+        //位置下标出现变化时，才触摸ACTION_MOVE事件通知外界contactFragment
+        if (index != mCurrentIndex) {
+            String firstLetter = SECTIONS[index];
+            if (mOnSlideChangeListener != null) {
+                mOnSlideChangeListener.onSildeChange(index, firstLetter);
+            }
+        }
+        mCurrentIndex = index;
     }
 
-    public void  setOnSlideChangeListener(onSlideChangeListener l){
-        mOnSlideChangeListener=l;
+    public interface onSlideChangeListener {
+        void onSildeChange(int index, String firstLetter);
+
+        void onSlidingFinish();
+
+    }
+
+    public void setOnSlideChangeListener(onSlideChangeListener l) {
+        mOnSlideChangeListener = l;
 
     }
 }

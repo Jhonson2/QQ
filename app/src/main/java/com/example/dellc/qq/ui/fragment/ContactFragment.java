@@ -40,6 +40,9 @@ public class ContactFragment extends BaseFragment implements ContactView{
     @BindView(R.id.slide_bar)
     SlideBar mSlideBar;
 
+    @BindView(R.id.first_letter)
+    TextView mFirstLetter;
+
     private ContactPersenter mContactPersenter;
     private ContactListAdapter mContactListAdapter;
 
@@ -113,13 +116,21 @@ public class ContactFragment extends BaseFragment implements ContactView{
     };
 
     private SlideBar.onSlideChangeListener mOnSlideChangeListener=
-            new SlideBar.onSlideChangeListener() {
-                @Override
-                public void onSildeChange(String firstLetter) {
-                    Log.d(TAG,"onSildeChange"+firstLetter);
-
-                }
+          new SlideBar.onSlideChangeListener() {
+              @Override
+              public void onSildeChange(int index,String firstLetter) {
+                  Log.d(TAG,"onSildeChange"+firstLetter);
+                  //显示悬浮文本
+                  mFirstLetter.setVisibility(View.VISIBLE);
+                  mFirstLetter.setText(firstLetter);
+              }
+              @Override
+              public void onSlidingFinish() {
+                  mFirstLetter.setVisibility(View.GONE);//隐藏中间绿色背景的首字符
+              }
             };
+
+
 }
 
 

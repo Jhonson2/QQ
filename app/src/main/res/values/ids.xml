@@ -18,5 +18,6 @@
     <item name="first_letter" type="id" />
     <item name="swipe_refresh_layout" type="id" />
     <item name="slide_bar" type="id" />
+    <item name="keyword" type="id" />
 
 </resources>

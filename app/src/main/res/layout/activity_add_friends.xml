@@ -12,12 +12,14 @@
         android:layout_margin="10dp">
 
         <EditText
+            android:id="@id/keyword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            />
+             android:imeOptions="actionSearch"
+            android:inputType="text"/>
 
-        <ImageView
+        <Button
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_margin="5dp"

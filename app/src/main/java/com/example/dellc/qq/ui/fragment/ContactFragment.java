@@ -14,6 +14,7 @@ import com.example.dellc.qq.R;
 import com.example.dellc.qq.adapter.ContactListAdapter;
 import com.example.dellc.qq.presenter.ContactPersenter;
 import com.example.dellc.qq.presenter.impl.ContactPersenterImpl;
+import com.example.dellc.qq.ui.activity.AddFriendsActivity;
 import com.example.dellc.qq.view.ContactView;
 import com.example.dellc.qq.widget.SlideBar;
 
@@ -89,6 +90,7 @@ public class ContactFragment extends BaseFragment implements ContactView{
 
     @OnClick(R.id.add)
     public void onClick() {
+        goTo(AddFriendsActivity.class,false);
     }
 
     @Override

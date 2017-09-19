@@ -60,4 +60,14 @@ public abstract class BaseFragment extends Fragment {
         getActivity().finish();
 
     }
+
+    protected void goTo(Class activity,Boolean isFinish ) {
+        Intent intent = new Intent(getContext(), activity);
+        startActivity(intent);
+        if(isFinish){
+            getActivity().finish();
+        }
+
+
+    }
 }

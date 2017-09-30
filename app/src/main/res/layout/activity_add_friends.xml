@@ -20,6 +20,7 @@
             android:inputType="text"/>
 
         <Button
+            android:id="@id/search"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_margin="5dp"
@@ -32,6 +33,6 @@
         android:id="@id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

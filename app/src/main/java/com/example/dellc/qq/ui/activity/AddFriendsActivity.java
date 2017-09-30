@@ -53,7 +53,7 @@ public class AddFriendsActivity extends BaseActivity implements AddFreindView {
     protected void init() {
         super.init();
         mAddFriendPersenter = new AddFreindPersenterImp(this);
-        mTitle.setText(getString(R.string.add_friends));
+        mTitle.setText(getString(R.string.add_friend));
         mKeyword.setOnEditorActionListener(mOnEditorActionListener);
         //初始化RecyclerView
         initRecyclerView();
@@ -62,7 +62,7 @@ public class AddFriendsActivity extends BaseActivity implements AddFreindView {
     private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);//recyclerView条目的大小自适应
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mSearchResultAdapter=new SearchResultAdapter(this,null);
+        mSearchResultAdapter=new SearchResultAdapter(this,mAddFriendPersenter.getSearchResult());
         mRecyclerView.setAdapter(mSearchResultAdapter);
 
     }
@@ -108,6 +108,7 @@ public class AddFriendsActivity extends BaseActivity implements AddFreindView {
         mRecyclerView.setVisibility(View.VISIBLE);
         mEmpty.setVisibility(View.GONE);
         toast(getString(R.string.search_failed));
+        mSearchResultAdapter.notifyDataSetChanged();//通知view层刷新结果列表
     }
 
     @Override

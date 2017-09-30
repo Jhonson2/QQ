@@ -14,7 +14,7 @@ import java.util.List;
  * Created by dellc on 2017/9/30.
  */
 
-public class SearchResultAdapter extends RecyclerView.Adapter {
+public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultItemViewHolder> {
     private Context mContext;
     private List<SearchResultItem> mSearchResultItems;
 
@@ -24,18 +24,20 @@ public class SearchResultAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchResultItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SearchResultItemViewHolder(new SearchResultItemView(mContext));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(SearchResultItemViewHolder holder, int position) {
+        holder.mSearchResultItemView.bindView(mSearchResultItems.get(position));
     }
+
+
 
     @Override
     public int getItemCount() {
-        return 30;
+        return mSearchResultItems.size();
     }
 
     public class SearchResultItemViewHolder extends RecyclerView.ViewHolder{

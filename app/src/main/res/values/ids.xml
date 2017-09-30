@@ -23,5 +23,6 @@
     <item name="empty" type="id" />
     <item name="avatar" type="id" />
     <item name="timestamp" type="id" />
+    <item name="add_friend" type="id" />
 
 </resources>

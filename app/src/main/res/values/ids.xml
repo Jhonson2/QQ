@@ -20,5 +20,6 @@
     <item name="slide_bar" type="id" />
     <item name="keyword" type="id" />
     <item name="search" type="id" />
+    <item name="empty" type="id" />
 
 </resources>

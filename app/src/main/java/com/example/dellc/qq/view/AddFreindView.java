@@ -6,4 +6,11 @@ package com.example.dellc.qq.view;
 
 public interface AddFreindView{
 
+    void onSearchSuccess();
+
+    void onSearchFailed();
+
+    void onSearchEmpty();
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.dellc.qq.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dellc.qq.R;
+import com.example.dellc.qq.adapter.SearchResultAdapter;
 import com.example.dellc.qq.presenter.AddFriendPersenter;
 import com.example.dellc.qq.presenter.impl.AddFreindPersenterImp;
 import com.example.dellc.qq.view.AddFreindView;
@@ -39,6 +41,7 @@ public class AddFriendsActivity extends BaseActivity implements AddFreindView {
     TextView mEmpty;
 
     private AddFriendPersenter mAddFriendPersenter;
+    private SearchResultAdapter mSearchResultAdapter;
 
 
     @Override
@@ -52,6 +55,16 @@ public class AddFriendsActivity extends BaseActivity implements AddFreindView {
         mAddFriendPersenter = new AddFreindPersenterImp(this);
         mTitle.setText(getString(R.string.add_friends));
         mKeyword.setOnEditorActionListener(mOnEditorActionListener);
+        //初始化RecyclerView
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView.setHasFixedSize(true);//recyclerView条目的大小自适应
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mSearchResultAdapter=new SearchResultAdapter(this,null);
+        mRecyclerView.setAdapter(mSearchResultAdapter);
+
     }
 
 

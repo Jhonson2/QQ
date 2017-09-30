@@ -21,5 +21,7 @@
     <item name="keyword" type="id" />
     <item name="search" type="id" />
     <item name="empty" type="id" />
+    <item name="avatar" type="id" />
+    <item name="timestamp" type="id" />
 
 </resources>

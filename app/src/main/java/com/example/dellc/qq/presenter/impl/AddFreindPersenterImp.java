@@ -50,16 +50,15 @@ public class AddFreindPersenterImp implements AddFriendPersenter {
                     } else {
                         //1.先查询一下数据库中所有联系人
                         List<String> contacts=DatabaseManager.getInstance().queryContact();
+
                         for(int i=0;i<list.size();i++){
                             //将user转换SearchResultItem
                             SearchResultItem item=new SearchResultItem();
                             item.userName=list.get(i).getUsername();
                             item.timestamp=list.get(i).getCreatedAt();//用户创建时间
-                            item.added=false;
 
-                            //到搜索界面，比较数据库的联系人和联系人列表
-
-
+                        //2.到搜索界面，查询数据库的联系人是否已经存在联系人列表
+                            item.added=contacts.contains(item.userName);
                             mSearchResultItems.add(item);
                         }
 

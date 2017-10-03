@@ -35,6 +35,9 @@ public class ContactPersenterImpl  implements ContactPersenter{
             @Override
             public void run() {
                 try {
+                    //加载前清空联系人数据库
+                    DatabaseManager.getInstance().deleteContact();
+
                     //没有异常，加载成功
                     List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
                     //将用户列表转换为List<ContactItem> mContactItem

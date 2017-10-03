@@ -61,4 +61,9 @@ public class DatabaseManager {
         }
         return contacts;
     }
+    //删除数据库的所有联系人
+    public void deleteContact(){
+        ContactDao contactDao = mDaoSession.getContactDao();
+        contactDao.deleteAll();
+    }
 }

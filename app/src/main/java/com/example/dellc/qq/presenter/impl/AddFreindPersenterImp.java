@@ -1,5 +1,6 @@
 package com.example.dellc.qq.presenter.impl;
 
+import com.example.dellc.qq.database.DatabaseManager;
 import com.example.dellc.qq.model.SearchResultItem;
 import com.example.dellc.qq.model.User;
 import com.example.dellc.qq.presenter.AddFriendPersenter;
@@ -47,12 +48,17 @@ public class AddFreindPersenterImp implements AddFriendPersenter {
                     if (list.size() == 0) {
                         mAddFreindView.onSearchEmpty();
                     } else {
+                        //1.先查询一下数据库中所有联系人
+                        List<String> contacts=DatabaseManager.getInstance().queryContact();
                         for(int i=0;i<list.size();i++){
                             //将user转换SearchResultItem
                             SearchResultItem item=new SearchResultItem();
                             item.userName=list.get(i).getUsername();
                             item.timestamp=list.get(i).getCreatedAt();//用户创建时间
                             item.added=false;
+
+                            //到搜索界面，比较数据库的联系人和联系人列表
+
 
                             mSearchResultItems.add(item);
                         }

@@ -2,10 +2,14 @@ package com.example.dellc.qq.app;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.dellc.qq.BuildConfig;
+import com.example.dellc.qq.database.DaoMaster;
+import com.example.dellc.qq.database.DaoSession;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
@@ -20,6 +24,8 @@ import cn.bmob.v3.Bmob;
 
 public class QQApplicance extends Application {
     public static final String TAG="QQApplicance";
+    private DaoSession mDaoSession
+            ;
 
     /*
     * app有多少个进程，onCreate方法执行多少次
@@ -29,7 +35,7 @@ public class QQApplicance extends Application {
         super.onCreate();
         initBmob();
         initEaseMob();
-
+        initDatebase(getApplicationContext());//初始化数据库
     }
 
     private void initBmob() {
@@ -93,5 +99,12 @@ public class QQApplicance extends Application {
         return processName;
     }
 
+    //自动生成DaoMaster
+    public void initDatebase(Context context) {
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, Constant.Database.DATABASE_NAME, null);
+        SQLiteDatabase writableDatabase = devOpenHelper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(writableDatabase);
+        mDaoSession = daoMaster.newSession();
+    }
 
 }

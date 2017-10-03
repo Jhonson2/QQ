@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.dellc.qq.BuildConfig;
 import com.example.dellc.qq.database.DaoMaster;
 import com.example.dellc.qq.database.DaoSession;
+import com.example.dellc.qq.database.DatabaseManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
@@ -35,7 +36,7 @@ public class QQApplicance extends Application {
         super.onCreate();
         initBmob();
         initEaseMob();
-        initDatebase(getApplicationContext());//初始化数据库
+        DatabaseManager.getInstance().initDatabase(getApplicationContext());//初始化数据库
     }
 
     private void initBmob() {
@@ -99,12 +100,6 @@ public class QQApplicance extends Application {
         return processName;
     }
 
-    //自动生成DaoMaster
-    public void initDatebase(Context context) {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, Constant.Database.DATABASE_NAME, null);
-        SQLiteDatabase writableDatabase = devOpenHelper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(writableDatabase);
-        mDaoSession = daoMaster.newSession();
-    }
+
 
 }

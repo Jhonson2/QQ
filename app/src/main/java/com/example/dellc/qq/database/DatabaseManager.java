@@ -39,7 +39,7 @@ public class DatabaseManager {
     }
 
     //save保存联系人
-    public  void saveDatabase(Contact contact){
+    public  void saveContact(Contact contact){
         ContactDao contactDao=mDaoSession.getContactDao();
         contactDao.save(contact);
     }

@@ -1,5 +1,7 @@
 package com.example.dellc.qq.presenter.impl;
 
+import com.example.dellc.qq.database.Contact;
+import com.example.dellc.qq.database.DatabaseManager;
 import com.example.dellc.qq.model.ContactItem;
 import com.example.dellc.qq.presenter.ContactPersenter;
 import com.example.dellc.qq.utils.ThreadUtils;
@@ -53,6 +55,12 @@ public class ContactPersenterImpl  implements ContactPersenter{
                         }else {
                             item.showFirstLetter=true;
                         }
+
+
+                        //将联系人保存到数据库中
+                        Contact contact=new Contact();
+                        contact.setUserName(usernames.get(i));
+                        DatabaseManager.getInstance().saveContact(contact);
 
                         mContactItem.add(item);
 

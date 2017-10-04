@@ -1,11 +1,18 @@
 package com.example.dellc.qq.presenter.impl;
 
 import com.example.dellc.qq.database.DatabaseManager;
+import com.example.dellc.qq.event.AddFriendEvent;
 import com.example.dellc.qq.model.SearchResultItem;
 import com.example.dellc.qq.model.User;
 import com.example.dellc.qq.presenter.AddFriendPersenter;
+import com.example.dellc.qq.utils.ThreadUtils;
 import com.example.dellc.qq.view.AddFreindView;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +34,8 @@ public class AddFreindPersenterImp implements AddFriendPersenter {
 
     public AddFreindPersenterImp(AddFreindView addFreindView) {
         mAddFreindView = addFreindView;
-        mSearchResultItems=new ArrayList<SearchResultItem>();
+        mSearchResultItems = new ArrayList<SearchResultItem>();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -49,16 +57,16 @@ public class AddFreindPersenterImp implements AddFriendPersenter {
                         mAddFreindView.onSearchEmpty();
                     } else {
                         //1.先查询一下数据库中所有联系人
-                        List<String> contacts=DatabaseManager.getInstance().queryContact();
+                        List<String> contacts = DatabaseManager.getInstance().queryContact();
 
-                        for(int i=0;i<list.size();i++){
+                        for (int i = 0; i < list.size(); i++) {
                             //将user转换SearchResultItem
-                            SearchResultItem item=new SearchResultItem();
-                            item.userName=list.get(i).getUsername();
-                            item.timestamp=list.get(i).getCreatedAt();//用户创建时间
+                            SearchResultItem item = new SearchResultItem();
+                            item.userName = list.get(i).getUsername();
+                            item.timestamp = list.get(i).getCreatedAt();//用户创建时间
 
-                        //2.到搜索界面，查询数据库的联系人是否已经存在联系人列表
-                            item.added=contacts.contains(item.userName);
+                            //2.到搜索界面，查询数据库的联系人是否已经存在联系人列表
+                            item.added = contacts.contains(item.userName);
                             mSearchResultItems.add(item);
                         }
 
@@ -74,7 +82,35 @@ public class AddFreindPersenterImp implements AddFriendPersenter {
 
     @Override
     public List<SearchResultItem> getSearchResult() {
-
         return mSearchResultItems;
+    }
+
+    //运用EventBus插件:添加好友操作
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void handleAddFriend(AddFriendEvent event) {
+
+        try {
+            //参数为要添加的好友的username和添加理由
+            EMClient.getInstance().contactManager().addContact(event.userName, event.reason);
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAddFreindView.onAddFreindSuccess();
+                }
+            });
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAddFreindView.onAddFreindFailed();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void destroy(){
+        EventBus.getDefault().unregister(this);
     }
 }

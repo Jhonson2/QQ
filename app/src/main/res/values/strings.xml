@@ -32,5 +32,6 @@
     <string name="search_empty">未搜索到符合条件的TextView</string>
     <string name="searching">正在搜索...</string>
     <string name="already_added">已添加</string>
-
+    <string name="send_add_freind_request_success">发送添加好友请求成功</string>
+    <string name="send_add_freind_request_failed">发送添加好友请求失败</string>
 </resources>

@@ -13,4 +13,7 @@ public interface AddFreindView{
     void onSearchEmpty();
 
 
+    void onAddFreindFailed();
+
+    void onAddFreindSuccess();
 }

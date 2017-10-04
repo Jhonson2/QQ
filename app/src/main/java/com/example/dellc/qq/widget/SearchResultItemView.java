@@ -8,7 +8,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dellc.qq.R;
+import com.example.dellc.qq.event.AddFriendEvent;
 import com.example.dellc.qq.model.SearchResultItem;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +59,9 @@ public class SearchResultItemView extends RelativeLayout {
         }
     }
 
+    //点击添加好友事件
     @OnClick(R.id.add_friend)
     public void onClick() {
+        EventBus.getDefault().post(new AddFriendEvent(mUserName.getText().toString().trim(),"我是张学友，请加我好友"));
     }
 }

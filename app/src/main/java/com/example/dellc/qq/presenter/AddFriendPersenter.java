@@ -13,4 +13,6 @@ public interface AddFriendPersenter {
     void searchFreind(String keyword);
 
     List<SearchResultItem> getSearchResult();
+
+    void destroy();
 }

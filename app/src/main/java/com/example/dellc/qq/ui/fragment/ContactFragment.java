@@ -1,6 +1,7 @@
 package com.example.dellc.qq.ui.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.DialogPreference;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.dellc.qq.R;
 import com.example.dellc.qq.adapter.ContactListAdapter;
+import com.example.dellc.qq.app.Constant;
+import com.example.dellc.qq.database.Contact;
 import com.example.dellc.qq.presenter.ContactPersenter;
 import com.example.dellc.qq.presenter.impl.ContactPersenterImpl;
 import com.example.dellc.qq.ui.activity.AddFriendsActivity;
@@ -102,7 +105,9 @@ public class ContactFragment extends BaseFragment implements ContactView {
         @Override
         public void onClick(String userName) {
             //1.点击事件：跳转到聊天界面
-            goTo(ChatActivity.class,false);
+            Intent intent=new Intent(getContext(),ChatActivity.class);
+            intent.putExtra(Constant.Extra.USER_NAME,userName);
+            startActivity(intent);
         }
 
         @Override

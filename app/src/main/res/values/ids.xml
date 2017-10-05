@@ -24,5 +24,7 @@
     <item name="avatar" type="id" />
     <item name="timestamp" type="id" />
     <item name="add_friend" type="id" />
+    <item name="message" type="id" />
+    <item name="send" type="id" />
 
 </resources>

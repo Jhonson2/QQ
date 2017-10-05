@@ -134,6 +134,8 @@ public class ChatActivity extends BaseActivity implements ChatView{
         hideKeyboard();
         toast(getString(R.string.send_success));
         mMessage.getText().clear();//发送成功后清空输入框
+        mMessageListAdapter.notifyDataSetChanged();//刷新聊天列表
+
 
     }
 
@@ -141,5 +143,6 @@ public class ChatActivity extends BaseActivity implements ChatView{
     public void onSendMessageFailed() {
         hideProgress();
         toast(getString(R.string.send_failed));
+        mMessageListAdapter.notifyDataSetChanged();//刷新聊天列表
     }
 }

@@ -5,12 +5,12 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@id/timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="16:18"
         android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        />
+        android:layout_gravity="center_horizontal" />
     
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,13 +29,15 @@
             android:layout_toLeftOf="@id/avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:background="@drawable/send_msg_normal"/>
 
         <ImageView
+            android:id="@id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/send_message"
-            android:background="@drawable/send_msg_progress"
+            android:src="@drawable/send_msg_progress"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 </LinearLayout>

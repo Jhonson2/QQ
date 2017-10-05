@@ -27,5 +27,6 @@
     <item name="message" type="id" />
     <item name="send" type="id" />
     <item name="send_message" type="id" />
+    <item name="progress" type="id" />
 
 </resources>

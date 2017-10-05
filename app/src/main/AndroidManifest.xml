@@ -34,6 +34,8 @@
         <activity android:name=".ui.activity.RegisterActivity"></activity>
 
         <activity android:name=".ui.activity.AddFriendsActivity"></activity>
+
+        <activity android:name=".ui.activity.ChatActivity"></activity>
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/AppTheme.FullScreen">

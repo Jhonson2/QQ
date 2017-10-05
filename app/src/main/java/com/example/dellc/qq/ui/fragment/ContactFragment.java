@@ -19,6 +19,7 @@ import com.example.dellc.qq.adapter.ContactListAdapter;
 import com.example.dellc.qq.presenter.ContactPersenter;
 import com.example.dellc.qq.presenter.impl.ContactPersenterImpl;
 import com.example.dellc.qq.ui.activity.AddFriendsActivity;
+import com.example.dellc.qq.ui.activity.ChatActivity;
 import com.example.dellc.qq.view.ContactView;
 import com.example.dellc.qq.widget.SlideBar;
 import com.hyphenate.EMClientListener;
@@ -101,6 +102,7 @@ public class ContactFragment extends BaseFragment implements ContactView {
         @Override
         public void onClick(String userName) {
             //1.点击事件：跳转到聊天界面
+            goTo(ChatActivity.class,false);
         }
 
         @Override

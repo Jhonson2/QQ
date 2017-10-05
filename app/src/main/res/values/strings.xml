@@ -40,4 +40,5 @@
     <string name="cancel">取消</string>
     <string name="delete_friend_success">删除好友成功</string>
     <string name="delete_friend_failed">删除好友失败</string>
+    <string name="send">发送</string>
 </resources>

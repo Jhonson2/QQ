@@ -34,4 +34,10 @@
     <string name="already_added">已添加</string>
     <string name="send_add_freind_request_success">发送添加好友请求成功</string>
     <string name="send_add_freind_request_failed">发送添加好友请求失败</string>
+    <string name="delete_freind">删除好友</string>
+    <string name="delete_friend_msg">与%s解除好友关系</string>
+    <string name="confrim">确定</string>
+    <string name="cancel">取消</string>
+    <string name="delete_friend_success">删除好友成功</string>
+    <string name="delete_friend_failed">删除好友失败</string>
 </resources>

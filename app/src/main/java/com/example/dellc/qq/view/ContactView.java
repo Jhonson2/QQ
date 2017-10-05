@@ -8,4 +8,8 @@ public interface ContactView {
     void onLoadContactsSuccess();
 
     void onLoadContactsFailed();
+
+    void onDeleteFriendFailed();
+
+    void onDeleteFriendSuccess();
 }

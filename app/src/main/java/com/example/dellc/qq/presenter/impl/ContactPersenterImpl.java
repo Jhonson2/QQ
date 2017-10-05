@@ -18,17 +18,17 @@ import java.util.List;
  * Created by dellc on 2017/9/16.
  */
 
-public class ContactPersenterImpl  implements ContactPersenter{
+public class ContactPersenterImpl implements ContactPersenter {
     private ContactView mContactView;
 
     private List<ContactItem> mContactItem;
 
 
-
-    public ContactPersenterImpl(ContactView contactView){
-        mContactView=contactView;
-        mContactItem=new ArrayList<ContactItem>();
+    public ContactPersenterImpl(ContactView contactView) {
+        mContactView = contactView;
+        mContactItem = new ArrayList<ContactItem>();
     }
+
     @Override
     public void loadContacts() {
         ThreadUtils.runOnBackgroundThread(new Runnable() {
@@ -41,27 +41,27 @@ public class ContactPersenterImpl  implements ContactPersenter{
                     //没有异常，加载成功
                     List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
                     //将用户列表转换为List<ContactItem> mContactItem
-                        //用户类别的排序
+                    //用户类别的排序
                     Collections.sort(usernames, new Comparator<String>() {
                         @Override
                         public int compare(String o1, String o2) {
-                            return o1.charAt(0)-o2.charAt(0);//升序的排列
+                            return o1.charAt(0) - o2.charAt(0);//升序的排列
                         }
                     });
-                    for(int i=0;i<usernames.size();i++){
-                        ContactItem item=new ContactItem();//创建ContactItem
+                    for (int i = 0; i < usernames.size(); i++) {
+                        ContactItem item = new ContactItem();//创建ContactItem
                         item.setUserName(usernames.get(i));
 
                         //判断和上一个item的首字符是否一致，一致：隐藏首字符
-                        if(i>0 && item.getFristLetter().equals(mContactItem.get(i-1).getFristLetter())){
-                                item.showFirstLetter=false;
-                        }else {
-                            item.showFirstLetter=true;
+                        if (i > 0 && item.getFristLetter().equals(mContactItem.get(i - 1).getFristLetter())) {
+                            item.showFirstLetter = false;
+                        } else {
+                            item.showFirstLetter = true;
                         }
 
 
                         //将联系人保存到数据库中
-                        Contact contact=new Contact();
+                        Contact contact = new Contact();
                         contact.setUserName(usernames.get(i));
                         DatabaseManager.getInstance().saveContact(contact);
 
@@ -102,5 +102,31 @@ public class ContactPersenterImpl  implements ContactPersenter{
         // 重新再次加载
         loadContacts();
 
+    }
+
+    @Override
+    public void deleteFreind(final String userName) {
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    EMClient.getInstance().contactManager().deleteContact(userName);
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mContactView.onDeleteFriendSuccess();
+                        }
+                    });
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mContactView.onDeleteFriendFailed();
+                        }
+                    });
+                }
+            }
+        });
     }
 }

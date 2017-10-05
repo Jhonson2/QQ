@@ -14,4 +14,6 @@ public interface ContactPersenter {
     List<ContactItem> getContacts();
 
     void refreshContacts();
+
+    void deleteFreind(String userName);
 }

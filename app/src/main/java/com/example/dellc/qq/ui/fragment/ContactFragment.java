@@ -1,8 +1,12 @@
 package com.example.dellc.qq.ui.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.DialogPreference;
+import android.preference.Preference;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -88,7 +92,45 @@ public class ContactFragment extends BaseFragment implements ContactView {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mContactListAdapter = new ContactListAdapter(getContext(), mContactPersenter.getContacts());
+        mContactListAdapter.setItemClickListener(mOnItemClickListener);            //设计监听
         mRecyclerView.setAdapter(mContactListAdapter);
+    }
+
+    private ContactListAdapter.OnItemClickListener mOnItemClickListener=new ContactListAdapter.OnItemClickListener() {
+
+        @Override
+        public void onClick(String userName) {
+            //1.点击事件：跳转到聊天界面
+        }
+
+        @Override
+        public void onLongClick(String userName) {
+            //2.长按事件：弹出对话框来删除好友
+        showDeleteFreindDialog(userName);
+        }
+    };
+
+    private void showDeleteFreindDialog(final String userName) {
+        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+        String msg=String.format(getString(R.string.delete_friend_msg),userName);
+        builder.setTitle((R.string.delete_freind))
+                .setMessage(msg)
+                //取消
+                .setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                //确认
+                .setPositiveButton(getString(R.string.confrim), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mContactPersenter.deleteFreind(userName);
+                    }
+                });
+        builder.show();
+
     }
 
     @OnClick(R.id.add)
@@ -108,6 +150,16 @@ public class ContactFragment extends BaseFragment implements ContactView {
     @Override
     public void onLoadContactsFailed() {
         toast(getString(R.string.load_contacts_failed));
+    }
+
+    @Override
+    public void onDeleteFriendFailed() {
+        toast(getString(R.string.delete_friend_failed));
+    }
+
+    @Override
+    public void onDeleteFriendSuccess() {
+        toast(getString(R.string.delete_friend_success));
     }
 
     //再次刷新联系人列表

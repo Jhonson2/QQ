@@ -17,6 +17,9 @@ import com.example.dellc.qq.presenter.impl.ContactPersenterImpl;
 import com.example.dellc.qq.ui.activity.AddFriendsActivity;
 import com.example.dellc.qq.view.ContactView;
 import com.example.dellc.qq.widget.SlideBar;
+import com.hyphenate.EMClientListener;
+import com.hyphenate.EMContactListener;
+import com.hyphenate.chat.EMClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +30,7 @@ import butterknife.Unbinder;
  * Created by dellc on 2017/9/13.
  */
 
-public class ContactFragment extends BaseFragment implements ContactView{
+public class ContactFragment extends BaseFragment implements ContactView {
 
     @BindView(R.id.title)
     TextView mTitle;
@@ -55,7 +58,7 @@ public class ContactFragment extends BaseFragment implements ContactView{
     @Override
     protected void init() {
         super.init();
-        mContactPersenter=new ContactPersenterImpl(this);
+        mContactPersenter = new ContactPersenterImpl(this);
         mTitle.setText(getString(R.string.contact));
         mAdd.setVisibility(View.VISIBLE);
         //初始化SlideBar()
@@ -65,10 +68,10 @@ public class ContactFragment extends BaseFragment implements ContactView{
         //初始化刷新小圆圈
         initSwipeRefreshLayout();
 
-
-
         //加载联系人数据
         mContactPersenter.loadContacts();
+
+        EMClient.getInstance().contactManager().setContactListener(mEMContactListener);
     }
 
     private void initSlideBar() {
@@ -77,20 +80,20 @@ public class ContactFragment extends BaseFragment implements ContactView{
 
     private void initSwipeRefreshLayout() {
         //配置圈的颜色变化
-        mSwipeRefreshayout.setColorSchemeResources(R.color.qq_bule,R.color.qq_red);
+        mSwipeRefreshayout.setColorSchemeResources(R.color.qq_bule, R.color.qq_red);
         mSwipeRefreshayout.setOnRefreshListener(mOnRefreshListener);
     }
 
     private void initRecycleView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mContactListAdapter=new ContactListAdapter(getContext(),mContactPersenter.getContacts());
+        mContactListAdapter = new ContactListAdapter(getContext(), mContactPersenter.getContacts());
         mRecyclerView.setAdapter(mContactListAdapter);
     }
 
     @OnClick(R.id.add)
     public void onClick() {
-        goTo(AddFriendsActivity.class,false);
+        goTo(AddFriendsActivity.class, false);
     }
 
     @Override
@@ -108,39 +111,93 @@ public class ContactFragment extends BaseFragment implements ContactView{
     }
 
     //再次刷新联系人列表
-    private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener=
+    private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            mContactPersenter.refreshContacts();
+                @Override
+                public void onRefresh() {
+                    mContactPersenter.refreshContacts();
 
+                }
+            };
+
+    private SlideBar.onSlideChangeListener mOnSlideChangeListener =
+            new SlideBar.onSlideChangeListener() {
+                @Override
+                public void onSildeChange(int index, String firstLetter) {
+                    Log.d(TAG, "onSildeChange" + firstLetter);
+                    //显示悬浮文本
+                    mFirstLetter.setVisibility(View.VISIBLE);
+                    mFirstLetter.setText(firstLetter);
+
+                    //找出首字符的mFirstLetter联系人第一个
+                    for (int i = 0; i < mContactPersenter.getContacts().size(); i++) {
+                        if (firstLetter.equals(mContactPersenter.getContacts().get(i).getFristLetter())) {
+                            mRecyclerView.scrollToPosition(i);
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onSlidingFinish() {
+                    mFirstLetter.setVisibility(View.GONE);//隐藏中间绿色背景的首字符
+                }
+            };
+    //监听好友状态事件
+    private EMContactListener mEMContactListener = new EMContactListener() {
+
+        /**
+         * 增加联系人时回调此方法
+         * @param username
+         */
+        @Override
+        public void onContactAdded(String username) {
+            Log.d(TAG,"onContactAdded"+ username);
+        }
+        /**
+         *  收到好友邀请
+         * @param username
+         * @param reason
+         */
+        @Override
+        public void onContactInvited(String username, String reason) {
+
+        }
+
+        /**
+         * 好友请求被同意
+         * @param username
+         */
+        @Override
+        public void onFriendRequestAccepted(String username) {
+            Log.d(TAG,"onFriendRequestAccepted"+ username);
+
+        }
+
+        /**
+         *  好友请求被拒绝
+         * @param username
+         */
+        @Override
+        public void onFriendRequestDeclined(String username) {
+            Log.d(TAG,"onFriendRequestDeclined"+ username);
+        }
+
+        /**
+         * 被删除时回调此方法
+         * @param username
+         */
+        @Override
+        public void onContactDeleted(String username) {
+            Log.d(TAG,"onContactDeleted"+ username);
         }
     };
 
-    private SlideBar.onSlideChangeListener mOnSlideChangeListener=
-          new SlideBar.onSlideChangeListener() {
-              @Override
-              public void onSildeChange(int index,String firstLetter) {
-                  Log.d(TAG,"onSildeChange"+firstLetter);
-                  //显示悬浮文本
-                  mFirstLetter.setVisibility(View.VISIBLE);
-                  mFirstLetter.setText(firstLetter);
-
-                  //找出首字符的mFirstLetter联系人第一个
-                  for (int i=0;i<mContactPersenter.getContacts().size();i++){
-                      if(firstLetter.equals(mContactPersenter.getContacts().get(i).getFristLetter())){
-                          mRecyclerView.scrollToPosition(i);
-                          break;
-                      }
-                  }
-              }
-              @Override
-              public void onSlidingFinish() {
-                  mFirstLetter.setVisibility(View.GONE);//隐藏中间绿色背景的首字符
-              }
-            };
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EMClient.getInstance().contactManager().removeContactListener(mEMContactListener);
+    }
 }
 
 

@@ -121,14 +121,11 @@ public class AddFriendsActivity extends BaseActivity implements AddFreindView {
     @Override
     public void onAddFreindFailed() {
         toast(getString(R.string.send_add_freind_request_failed));
-
-
     }
 
     @Override
     public void onAddFreindSuccess() {
         toast(getString(R.string.send_add_freind_request_success));
-
     }
 
     @Override

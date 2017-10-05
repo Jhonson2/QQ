@@ -148,19 +148,39 @@ public class ContactFragment extends BaseFragment implements ContactView {
 
         /**
          * 增加联系人时回调此方法
+         *
          * @param username
          */
         @Override
         public void onContactAdded(String username) {
-            Log.d(TAG,"onContactAdded"+ username);
+            mContactPersenter.refreshContacts();//增加好友后，自动刷新好友列表
+            Log.d(TAG, "onContactAdded" + username);
         }
+
+        /**
+         * 被删除时回调此方法
+         * @param username
+         */
+        @Override
+        public void onContactDeleted(String username) {
+            mContactPersenter.refreshContacts();//增加好友后，自动刷新好友列表
+            Log.d(TAG, "onContactDeleted" + username);
+        }
+
+
         /**
          *  收到好友邀请
+         *   当接受好友请求时，默认统一添加好友 options.setAcceptInvitationAlways(true);
          * @param username
          * @param reason
          */
         @Override
         public void onContactInvited(String username, String reason) {
+            /*
+            *注意：如果要手动同意需要在初始化SDK时调用 opptions.setAcceptInvitationAlways(false); 。
+             */
+            // EMClient.getInstance().contactManager().acceptInvitation(username);//同意好友请求
+            // EMClient.getInstance().contactManager().declineInvitation(username);//拒绝好友请求
 
         }
 
@@ -170,7 +190,8 @@ public class ContactFragment extends BaseFragment implements ContactView {
          */
         @Override
         public void onFriendRequestAccepted(String username) {
-            Log.d(TAG,"onFriendRequestAccepted"+ username);
+            Log.d(TAG, "onFriendRequestAccepted" + username);
+            // EMClient.getInstance().contactManager().acceptInvitation(username);//同意好友请求
 
         }
 
@@ -180,18 +201,11 @@ public class ContactFragment extends BaseFragment implements ContactView {
          */
         @Override
         public void onFriendRequestDeclined(String username) {
-            Log.d(TAG,"onFriendRequestDeclined"+ username);
-        }
-
-        /**
-         * 被删除时回调此方法
-         * @param username
-         */
-        @Override
-        public void onContactDeleted(String username) {
-            Log.d(TAG,"onContactDeleted"+ username);
+            Log.d(TAG, "onFriendRequestDeclined" + username);
+            // EMClient.getInstance().contactManager().declineInvitation(username);//拒绝好友请求
         }
     };
+
 
     @Override
     public void onDestroy() {

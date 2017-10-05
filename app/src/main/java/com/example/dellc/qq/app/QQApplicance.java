@@ -24,9 +24,8 @@ import cn.bmob.v3.Bmob;
  */
 
 public class QQApplicance extends Application {
-    public static final String TAG="QQApplicance";
-    private DaoSession mDaoSession
-            ;
+    public static final String TAG = "QQApplicance";
+    private DaoSession mDaoSession;
 
     /*
     * app有多少个进程，onCreate方法执行多少次
@@ -57,7 +56,7 @@ public class QQApplicance extends Application {
 // 默认的APP会在以包名为默认的process name下运行，
 // 如果查到的process name不是APP的process name就立即返回
 
-        if (processAppName == null ||!processAppName.equalsIgnoreCase(getPackageName())) {
+        if (processAppName == null || !processAppName.equalsIgnoreCase(getPackageName())) {
             Log.e(TAG, "enter the service process!");
 
             // 则此application::onCreate 是被service 调用的，直接返回
@@ -65,7 +64,7 @@ public class QQApplicance extends Application {
         }
 
         EMOptions options = new EMOptions();
-// 当接受好友请求时，默认添加
+// 当接受好友请求时，默认统一添加好友
         options.setAcceptInvitationAlways(true);
 //初始化 只在默认进程初始化一次
         EMClient.getInstance().init(getApplicationContext(), options);
@@ -76,9 +75,9 @@ public class QQApplicance extends Application {
     }
 
 
-/*
-获取getAppNamed方法app进程名字
-*/
+    /*
+    获取getAppNamed方法app进程名字
+    */
     private String getAppName(int pID) {
         String processName = null;
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
@@ -99,7 +98,6 @@ public class QQApplicance extends Application {
         }
         return processName;
     }
-
 
 
 }

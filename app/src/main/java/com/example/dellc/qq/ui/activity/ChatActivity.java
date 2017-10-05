@@ -1,6 +1,7 @@
 package com.example.dellc.qq.ui.activity;
 
 import android.icu.text.IDNA;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dellc.qq.R;
+import com.example.dellc.qq.adapter.MessageListAdapter;
 import com.example.dellc.qq.app.Constant;
 import com.example.dellc.qq.presenter.ChatPersenter;
 import com.example.dellc.qq.presenter.impl.ChatPresenterImpl;
@@ -39,6 +41,8 @@ public class ChatActivity extends BaseActivity implements ChatView{
     private ChatPersenter mChatPersenter;
     private String userName;
 
+    private MessageListAdapter mMessageListAdapter;
+
     @Override
     public int getLayoutResID() {
         return R.layout.activity_chat;
@@ -54,6 +58,15 @@ public class ChatActivity extends BaseActivity implements ChatView{
         mBack.setVisibility(View.VISIBLE);
         mMessage.addTextChangedListener(mTextWatcher);
         mMessage.setOnEditorActionListener(mOnEditorActionListener);
+        
+        initRecyclerView();//初始化聊天界面的RecyclerView
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mMessageListAdapter);
+
     }
 
     @OnClick({R.id.back, R.id.send})
@@ -61,7 +74,6 @@ public class ChatActivity extends BaseActivity implements ChatView{
         switch (view.getId()) {
             case R.id.back:
                 finish();
-
                 break;
             case R.id.send:
                 //按钮：发送
@@ -71,8 +83,10 @@ public class ChatActivity extends BaseActivity implements ChatView{
     }
 //发送的方法
     private void sendMessage() {
-        String message= mMessage.getText().toString();//发送的消息
+        hideKeyboard();
+        String message= mMessage.getText().toString().trim();//发送的消息
         mChatPersenter.sendMessage(userName,message);
+        mMessage.getText().clear();
     }
 
     //键盘：发送键盘中按钮
@@ -104,4 +118,23 @@ public class ChatActivity extends BaseActivity implements ChatView{
             mSend.setEnabled(s.length()>0);
         }
     };
+
+    @Override
+    public void onStartSendMessage() {
+        showProgress(getString(R.string.sending));
+    }
+
+    @Override
+    public void onSendMessageSuccess() {
+        hideProgress();
+        hideKeyboard();
+        toast(getString(R.string.send_success));
+
+    }
+
+    @Override
+    public void onSendMessageFailed() {
+        hideProgress();
+        toast(getString(R.string.send_failed));
+    }
 }

@@ -5,4 +5,9 @@ package com.example.dellc.qq.view;
  */
 
 public interface ChatView {
+    void onStartSendMessage();
+
+    void onSendMessageSuccess();
+
+    void onSendMessageFailed();
 }

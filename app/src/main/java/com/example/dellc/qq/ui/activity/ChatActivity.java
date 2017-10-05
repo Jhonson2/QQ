@@ -1,9 +1,12 @@
 package com.example.dellc.qq.ui.activity;
 
+import android.icu.text.IDNA;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,6 +14,9 @@ import android.widget.TextView;
 
 import com.example.dellc.qq.R;
 import com.example.dellc.qq.app.Constant;
+import com.example.dellc.qq.presenter.ChatPersenter;
+import com.example.dellc.qq.presenter.impl.ChatPresenterImpl;
+import com.example.dellc.qq.view.ChatView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -18,7 +24,7 @@ import butterknife.OnClick;
 /**
  * Created by dellc on 2017/10/5.
  */
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseActivity implements ChatView{
     @BindView(R.id.title)
     TextView mTitle;
     @BindView(R.id.back)
@@ -30,6 +36,9 @@ public class ChatActivity extends BaseActivity {
     @BindView(R.id.send)
     Button mSend;
 
+    private ChatPersenter mChatPersenter;
+    private String userName;
+
     @Override
     public int getLayoutResID() {
         return R.layout.activity_chat;
@@ -38,11 +47,13 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void init() {
         super.init();
-        String userName=getIntent().getStringExtra(Constant.Extra.USER_NAME);
+        mChatPersenter=new ChatPresenterImpl(this);
+        userName= getIntent().getStringExtra(Constant.Extra.USER_NAME);
         String title=String.format(getString(R.string.chat_title),userName);
         mTitle.setText(title);
         mBack.setVisibility(View.VISIBLE);
         mMessage.addTextChangedListener(mTextWatcher);
+        mMessage.setOnEditorActionListener(mOnEditorActionListener);
     }
 
     @OnClick({R.id.back, R.id.send})
@@ -53,10 +64,30 @@ public class ChatActivity extends BaseActivity {
 
                 break;
             case R.id.send:
+                //按钮：发送
+                sendMessage();
                 break;
         }
     }
-        //文本变化
+//发送的方法
+    private void sendMessage() {
+        String message= mMessage.getText().toString();//发送的消息
+        mChatPersenter.sendMessage(userName,message);
+    }
+
+    //键盘：发送键盘中按钮
+    private TextView.OnEditorActionListener mOnEditorActionListener=new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId== EditorInfo.IME_ACTION_SEND){
+                sendMessage();
+                return true;
+            }
+            return false;
+        }
+    };
+
+    //文本变化
     private TextWatcher mTextWatcher=new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

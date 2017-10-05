@@ -7,31 +7,52 @@ import com.example.dellc.qq.view.ChatView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by dellc on 2017/10/5.
  */
 
 public class ChatPresenterImpl implements ChatPersenter {
     private ChatView mChatView;
+    private List<EMMessage> mMessage;
+
+
 
     public ChatPresenterImpl(ChatView chatView) {
         mChatView = chatView;
+        mMessage=new ArrayList<EMMessage>();
     }
 
     @Override
     public void sendMessage(final String userName, final String msg) {
-        mChatView.onStartSendMessage();
-
         ThreadUtils.runOnBackgroundThread(new Runnable() {
             @Override
             public void run() {
                 //创建一个文本消息，content为消息内容，toChat为对方用户或者群聊id
                 EMMessage emMessage=EMMessage.createTxtSendMessage(msg,userName);
                 emMessage.setMessageStatusCallback(mEMCallBackAdapter);
+
+                //点击发送后，立即添加到聊天的数据集合中
+                mMessage.add(emMessage);
+
+                ThreadUtils.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mChatView.onStartSendMessage();
+                    }
+                });
                 //发送消息
                 EMClient.getInstance().chatManager().sendMessage(emMessage);
             }
         });
+    }
+
+    @Override
+    public List<EMMessage> getMessage() {
+
+        return mMessage ;
     }
 
     private EMCallBackAdapter mEMCallBackAdapter=new EMCallBackAdapter(){

@@ -65,6 +65,7 @@ public class ChatActivity extends BaseActivity implements ChatView{
     private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mMessageListAdapter=new MessageListAdapter(this,mChatPersenter.getMessage());
         mRecyclerView.setAdapter(mMessageListAdapter);
 
     }
@@ -86,7 +87,7 @@ public class ChatActivity extends BaseActivity implements ChatView{
         hideKeyboard();
         String message= mMessage.getText().toString().trim();//发送的消息
         mChatPersenter.sendMessage(userName,message);
-        mMessage.getText().clear();
+
     }
 
     //键盘：发送键盘中按钮
@@ -122,6 +123,9 @@ public class ChatActivity extends BaseActivity implements ChatView{
     @Override
     public void onStartSendMessage() {
         showProgress(getString(R.string.sending));
+        mMessageListAdapter.notifyDataSetChanged();
+        mRecyclerView.smoothScrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
+
     }
 
     @Override
@@ -129,6 +133,7 @@ public class ChatActivity extends BaseActivity implements ChatView{
         hideProgress();
         hideKeyboard();
         toast(getString(R.string.send_success));
+        mMessage.getText().clear();//发送成功后清空输入框
 
     }
 

@@ -166,6 +166,7 @@ public class ChatActivity extends BaseActivity implements ChatView{
                 public void run() {
                     //刷新聊天列表
                     mMessageListAdapter.addNewMessage(list.get(0));//单聊
+                    mRecyclerView.smoothScrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
                 }
             });
         }

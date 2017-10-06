@@ -42,8 +42,12 @@ public class MessageListAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //绑定ViewHolder刷新数据
+            //发送消息
         if(holder instanceof SendMessageItemViewHolder){
             ((SendMessageItemViewHolder)holder).mSendMessageItemView.bindView(mMessage.get(position));
+            //接收消息
+        }else{
+            ((ReceiveMessageItemViewHolder)holder).mReceiveMessageItemView.bindView(mMessage.get(position));
         }
     }
 

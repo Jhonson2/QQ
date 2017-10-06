@@ -18,7 +18,13 @@ import com.example.dellc.qq.adapter.MessageListAdapter;
 import com.example.dellc.qq.app.Constant;
 import com.example.dellc.qq.presenter.ChatPersenter;
 import com.example.dellc.qq.presenter.impl.ChatPresenterImpl;
+import com.example.dellc.qq.utils.ThreadUtils;
 import com.example.dellc.qq.view.ChatView;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -58,7 +64,9 @@ public class ChatActivity extends BaseActivity implements ChatView{
         mBack.setVisibility(View.VISIBLE);
         mMessage.addTextChangedListener(mTextWatcher);
         mMessage.setOnEditorActionListener(mOnEditorActionListener);
-        
+
+        EMClient.getInstance().chatManager().addMessageListener(mEMMessageListener);//接收消息
+
         initRecyclerView();//初始化聊天界面的RecyclerView
     }
 
@@ -144,5 +152,58 @@ public class ChatActivity extends BaseActivity implements ChatView{
         hideProgress();
         toast(getString(R.string.send_failed));
         mMessageListAdapter.notifyDataSetChanged();//刷新聊天列表
+    }
+
+    /**
+     * 设计接送消息的监听
+     */
+    private EMMessageListener mEMMessageListener=new EMMessageListener() {
+        //收到消息
+        @Override
+        public void onMessageReceived(final List<EMMessage> list) {
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //刷新聊天列表
+                    mMessageListAdapter.addNewMessage(list.get(0));//单聊
+                }
+            });
+        }
+
+        //收到透传消息
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> list) {
+
+        }
+
+        //收到已读回执
+        @Override
+        public void onMessageRead(List<EMMessage> list) {
+
+        }
+
+        //收到已送达回执
+        @Override
+        public void onMessageDelivered(List<EMMessage> list) {
+
+        }
+
+        //消息回复
+        @Override
+        public void onMessageRecalled(List<EMMessage> list) {
+
+        }
+        //消息状态变动
+        @Override
+        public void onMessageChanged(EMMessage emMessage, Object o) {
+
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //不需要时，要移除监听
+        EMClient.getInstance().chatManager().removeMessageListener(mEMMessageListener);
     }
 }

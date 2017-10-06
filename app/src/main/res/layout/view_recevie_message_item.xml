@@ -20,7 +20,7 @@
             android:id="@id/avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@mipmap/avatar2"
+            android:src="@mipmap/avatar1"
             android:layout_alignParentLeft="true"
             android:layout_margin="10dp"/>
 

@@ -3,6 +3,7 @@ package com.example.dellc.qq.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,8 +43,8 @@ public class ReceiveMessageItemView extends RelativeLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_recevie_message_item, this);
     }
 
-    public void bindView(EMMessage emMessage) {
-        updateTimestamp(emMessage);//刷新时间
+    public void bindView(EMMessage emMessage,boolean showTimestamp) {
+        updateTimestamp(showTimestamp,emMessage);//刷新时间
         updateText(emMessage);//刷新文本
     }
 
@@ -59,10 +60,15 @@ public class ReceiveMessageItemView extends RelativeLayout {
         }
     }
 
-    private void updateTimestamp(EMMessage emMessage) {
+    private void updateTimestamp(boolean showTimestamp,EMMessage emMessage) {
         //刷新时间
-        long msgTime = emMessage.getMsgTime();
-        String time = DateUtils.getTimestampString(new Date(msgTime));
-        mTimestamp.setText(time);
+        if(showTimestamp){
+            mTimestamp.setVisibility(View.VISIBLE);
+            long msgTime = emMessage.getMsgTime();
+            String time = DateUtils.getTimestampString(new Date(msgTime));
+            mTimestamp.setText(time);
+        }else{
+            mTimestamp.setVisibility(View.GONE);
+        }
     }
 }

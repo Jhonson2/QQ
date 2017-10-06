@@ -132,7 +132,7 @@ public class ChatActivity extends BaseActivity implements ChatView{
     public void onStartSendMessage() {
         showProgress(getString(R.string.sending));
         mMessageListAdapter.notifyDataSetChanged();
-        mRecyclerView.smoothScrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
+        smoothScrollToBottom();
 
     }
 
@@ -166,7 +166,7 @@ public class ChatActivity extends BaseActivity implements ChatView{
                 public void run() {
                     //刷新聊天列表
                     mMessageListAdapter.addNewMessage(list.get(0));//单聊
-                    mRecyclerView.smoothScrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
+                    smoothScrollToBottom();
                 }
             });
         }
@@ -200,6 +200,13 @@ public class ChatActivity extends BaseActivity implements ChatView{
 
         }
     };
+
+    /**
+     * 屏幕滚动
+     */
+    private void smoothScrollToBottom() {
+        mRecyclerView.smoothScrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
+    }
 
     @Override
     protected void onDestroy() {

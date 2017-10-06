@@ -48,8 +48,8 @@ public class SendMessageItemView extends RelativeLayout {
         ButterKnife.bind(this, this);
     }
 
-    public void bindView(EMMessage emMessage) {
-        updateTimestamp(emMessage);//刷新时间
+    public void bindView(EMMessage  emMessage,boolean showTimestamp) {
+        updateTimestamp(showTimestamp,emMessage);//刷新时间
         updateText(emMessage);//刷新文本
         updateProgress(emMessage);  //刷新进度菊花
     }
@@ -87,10 +87,17 @@ public class SendMessageItemView extends RelativeLayout {
         }
     }
 
-    private void updateTimestamp(EMMessage emMessage) {
+    private void updateTimestamp(boolean showTimestamp,EMMessage emMessage) {
         //刷新时间
-        long msgTime = emMessage.getMsgTime();
-        String time = DateUtils.getTimestampString(new Date(msgTime));
-        mTimestamp.setText(time);
+        if(showTimestamp){
+            mTimestamp.setVisibility(View.VISIBLE);
+            long msgTime = emMessage.getMsgTime();
+            String time = DateUtils.getTimestampString(new Date(msgTime));
+            mTimestamp.setText(time);
+        }else{
+            mTimestamp.setVisibility(View.GONE);
+        }
+
+
     }
 }

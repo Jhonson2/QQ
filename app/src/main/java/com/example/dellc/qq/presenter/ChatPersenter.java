@@ -12,4 +12,6 @@ public interface ChatPersenter {
     void sendMessage(String userName,String msg);
 
     List<EMMessage> getMessage();
+
+    void loadMessage(String userName);
 }

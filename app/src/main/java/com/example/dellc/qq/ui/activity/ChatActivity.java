@@ -68,6 +68,8 @@ public class ChatActivity extends BaseActivity implements ChatView{
         EMClient.getInstance().chatManager().addMessageListener(mEMMessageListener);//接收消息
 
         initRecyclerView();//初始化聊天界面的RecyclerView
+        mChatPersenter.loadMessage(userName);
+        //加载聊天记录
     }
 
     private void initRecyclerView() {
@@ -154,6 +156,13 @@ public class ChatActivity extends BaseActivity implements ChatView{
         mMessageListAdapter.notifyDataSetChanged();//刷新聊天列表
     }
 
+    @Override
+    public void onLoadMessageSuccess() {
+        mMessageListAdapter.notifyDataSetChanged();//刷新聊天列表
+        smoothToBottom();
+        toast(getString(R.string.load_message_success));
+    }
+
     /**
      * 设计接送消息的监听
      */
@@ -202,10 +211,18 @@ public class ChatActivity extends BaseActivity implements ChatView{
     };
 
     /**
-     * 屏幕滚动
+     * 屏幕平和滚动
      */
     private void smoothScrollToBottom() {
         mRecyclerView.smoothScrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
+    }
+
+    /**
+     *
+     */
+
+    private void smoothToBottom() {
+        mRecyclerView.scrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
     }
 
     @Override

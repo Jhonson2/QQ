@@ -34,8 +34,7 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
     @Override
     public void onBindViewHolder(ConversationItemViewHolder holder, final int position) {
         holder.mConversationItemView.bindView(mEMConversations.get(position));
-        //设计Converstatiomitem长按或者是点击事件
-        //点击事件
+        //设计Converstatiomitem长点击事件
         holder.mConversationItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,4 +16,7 @@ public interface ChatView {
     void onLoadMoreMessageSuccess(int size);
 
     void onNoMoreData();
+
+    void makRead(String userName);
+
 }

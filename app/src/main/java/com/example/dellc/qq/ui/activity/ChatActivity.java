@@ -23,6 +23,7 @@ import com.example.dellc.qq.utils.ThreadUtils;
 import com.example.dellc.qq.view.ChatView;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 
 import java.util.List;
@@ -180,6 +181,17 @@ public class ChatActivity extends BaseActivity implements ChatView{
     @Override
     public void onNoMoreData() {
         toast(getString(R.string.no_more_data));
+    }
+
+    /**
+     * 将收到的信息标记为已读
+     * @param userName
+     */
+    @Override
+    public void makRead(String userName) {
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(userName);
+        conversation.markAllMessagesAsRead();
+
     }
 
     /**

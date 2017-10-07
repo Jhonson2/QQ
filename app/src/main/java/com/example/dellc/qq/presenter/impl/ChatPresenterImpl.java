@@ -70,6 +70,9 @@ public class ChatPresenterImpl implements ChatPersenter {
                     mMessage.addAll(messages); //添加到数据集合
                     //指定会话消息未读数清零
                    // conversation.markAllMessagesAsRead();
+
+                    //
+                    mChatView.makRead(userName);
                 }
 
                 //通知View层加载聊天记录成功

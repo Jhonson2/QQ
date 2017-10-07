@@ -7,6 +7,9 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +36,19 @@ public class ConversationPresenterImpl implements ConversationPersenter {
                 Map<String, EMConversation> conversations = EMClient.getInstance()
                         .chatManager().getAllConversations();
                 mEMConversation.addAll(conversations.values());
+                //最后一条信息时间戳：排序
+                Collection<EMConversation> values=conversations.values();
+               // List<EMConversation> values= (List<EMConversation>) conversations.values();
+                Collections.sort(mEMConversation, new Comparator<EMConversation>() {
+                    @Override
+                    public int compare(EMConversation o1, EMConversation o2) {
+                        //降序排列，根据最后一条消息的时间戳
+
+                        return (int) (o2.getLastMessage().getMsgTime()-o1.getLastMessage().getMsgTime());
+                    }
+                });
+
+
 
                 ThreadUtils.runOnUiThread(new Runnable() {
                     @Override

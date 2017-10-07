@@ -2,8 +2,10 @@ package com.example.dellc.qq.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.dellc.qq.widget.ConversationItemView;
 import com.hyphenate.chat.EMConversation;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class ConversationListAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        return new ConversationItemViewHolder(new ConversationItemView(mContext));
     }
 
     @Override
@@ -33,6 +35,16 @@ public class ConversationListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 20;
+    }
+
+    public class ConversationItemViewHolder extends RecyclerView.ViewHolder{
+        private ConversationItemView mConversationItemView;
+
+
+        public ConversationItemViewHolder(ConversationItemView itemView) {
+            super(itemView);
+            this.mConversationItemView=itemView;
+        }
     }
 }

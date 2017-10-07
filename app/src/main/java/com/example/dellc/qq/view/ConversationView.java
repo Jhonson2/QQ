@@ -5,4 +5,5 @@ package com.example.dellc.qq.view;
  */
 
 public interface ConversationView {
+    void onLoadConversationSuccess();
 }

@@ -49,4 +49,5 @@
     <string name="load_message_success">加载聊天记录成功</string>
     <string name="load_moore_message_success">加载更多信息成功</string>
     <string name="no_more_data">没有更多数据</string>
+    <string name="load_conversation_success">加载信息（会话）成功</string>
 </resources>

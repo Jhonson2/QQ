@@ -42,5 +42,11 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
         mConversationPersenter.loadConversation();
     }
 
-
+    /**
+     * 加载信息（会话）成功
+     */
+    @Override
+    public void onLoadConversationSuccess() {
+        toast(getString(R.string.load_conversation_success));
+    }
 }

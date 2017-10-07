@@ -63,9 +63,14 @@ public class ChatPresenterImpl implements ChatPersenter {
         ThreadUtils.runOnBackgroundThread(new Runnable() {
             @Override
             public void run() {
+
                 EMConversation conversation = EMClient.getInstance().chatManager().getConversation(userName);
-                List<EMMessage> messages = conversation.getAllMessages();//获取此会话的所有消息
-                mMessage.addAll(messages); //添加到数据集合
+                if (conversation != null) {
+                    List<EMMessage> messages = conversation.getAllMessages();//获取此会话的所有消息
+                    mMessage.addAll(messages); //添加到数据集合
+                    //指定会话消息未读数清零
+                    conversation.markAllMessagesAsRead();
+                }
 
                 //通知View层加载聊天记录成功
                 ThreadUtils.runOnUiThread(new Runnable() {
@@ -100,8 +105,8 @@ public class ChatPresenterImpl implements ChatPersenter {
                     mMessage.addAll(0, messages);//将更多数据加入数据集合
 
                     //如果数据不足20条时
-                    if(messages.size() <DEFAULT_PAGE_SIZE){
-                        canLoadMoreMessage=false;
+                    if (messages.size() < DEFAULT_PAGE_SIZE) {
+                        canLoadMoreMessage = false;
                     }
 
                     //然后跳转到View层加载数据
@@ -111,7 +116,7 @@ public class ChatPresenterImpl implements ChatPersenter {
                             mChatView.onLoadMoreMessageSuccess(messages.size());
                         }
                     });
-                }else{
+                } else {
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

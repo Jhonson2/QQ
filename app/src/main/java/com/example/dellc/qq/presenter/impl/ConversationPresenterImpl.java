@@ -44,4 +44,13 @@ public class ConversationPresenterImpl implements ConversationPersenter {
             }
         });
     }
+
+    /**
+     * 获取消息（会话）数据
+     * @return
+     */
+    @Override
+    public List<EMConversation> getConversations() {
+        return mEMConversation;
+    }
 }

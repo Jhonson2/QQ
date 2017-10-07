@@ -14,7 +14,7 @@ import java.util.List;
  * Created by dellc on 2017/10/7.
  */
 
-public class ConversationListAdapter extends RecyclerView.Adapter {
+public class ConversationListAdapter extends RecyclerView.Adapter<ConversationListAdapter.ConversationItemViewHolder> {
     private Context mContext;
     private List<EMConversation> mEMConversation;
 
@@ -24,18 +24,20 @@ public class ConversationListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ConversationItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ConversationItemViewHolder(new ConversationItemView(mContext));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(ConversationItemViewHolder holder, int position) {
+        holder.mConversationItemView.bindView(mEMConversation.get(position));
     }
+
+
 
     @Override
     public int getItemCount() {
-        return 20;
+        return mEMConversation.size();
     }
 
     public class ConversationItemViewHolder extends RecyclerView.ViewHolder{

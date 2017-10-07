@@ -48,7 +48,7 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
     private void initRececylerView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mConversationListAdapter=new ConversationListAdapter(getContext(),null);
+        mConversationListAdapter=new ConversationListAdapter(getContext(),mConversationPersenter.getConversations());
         mRecyclerView.setAdapter(mConversationListAdapter);
     }
 
@@ -58,5 +58,6 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
     @Override
     public void onLoadConversationSuccess() {
         toast(getString(R.string.load_conversation_success));
+        mConversationListAdapter.notifyDataSetChanged();
     }
 }

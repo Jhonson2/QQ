@@ -33,6 +33,9 @@ public class ConversationPresenterImpl implements ConversationPersenter {
         ThreadUtils.runOnBackgroundThread(new Runnable() {
             @Override
             public void run() {
+                //清空原来的会话全部数据集合
+                mEMConversation.clear();
+
                 Map<String, EMConversation> conversations = EMClient.getInstance()
                         .chatManager().getAllConversations();
                 mEMConversation.addAll(conversations.values());

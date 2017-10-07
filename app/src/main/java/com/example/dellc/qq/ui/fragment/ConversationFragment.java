@@ -1,22 +1,22 @@
 package com.example.dellc.qq.ui.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.dellc.qq.R;
 import com.example.dellc.qq.adapter.ConversationListAdapter;
+import com.example.dellc.qq.adapter.EMMessageListenerAdapter;
 import com.example.dellc.qq.presenter.ConversationPersenter;
 import com.example.dellc.qq.presenter.impl.ConversationPresenterImpl;
 import com.example.dellc.qq.view.ConversationView;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by dellc on 2017/9/13.
@@ -42,6 +42,7 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
         mConversationPersenter=new ConversationPresenterImpl(this);
         mTitle.setText(getString(R.string.conversation));
         initRececylerView();
+        EMClient.getInstance().chatManager().addMessageListener(mEMMessageListener);
         mConversationPersenter.loadConversation();
     }
 
@@ -59,5 +60,24 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
     public void onLoadConversationSuccess() {
         toast(getString(R.string.load_conversation_success));
         mConversationListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 发送新的信息的监听
+     */
+    private EMMessageListenerAdapter mEMMessageListener=new EMMessageListenerAdapter() {
+        @Override
+        public void onMessageReceived(List<EMMessage> list) {
+            //重新加载会话数据
+            mConversationPersenter.loadConversation();
+
+        }
+    };
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EMClient.getInstance().chatManager().removeMessageListener(mEMMessageListener);
     }
 }

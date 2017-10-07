@@ -12,4 +12,8 @@ public interface ChatView {
     void onSendMessageFailed();
 
     void onLoadMessageSuccess();
+
+    void onLoadMoreMessageSuccess(int size);
+
+    void onNoMoreData();
 }

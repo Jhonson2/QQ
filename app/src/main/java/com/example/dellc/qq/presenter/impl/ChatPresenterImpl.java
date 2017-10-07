@@ -19,6 +19,9 @@ public class ChatPresenterImpl implements ChatPersenter {
     private ChatView mChatView;
     private List<EMMessage> mMessage;
 
+    private static final int DEFAULT_PAGE_SIZE = 20;//默认加载20条数据
+
+    private boolean canLoadMoreMessage = true;
 
     public ChatPresenterImpl(ChatView chatView) {
         mChatView = chatView;
@@ -77,6 +80,50 @@ public class ChatPresenterImpl implements ChatPersenter {
 
     }
 
+
+    /**
+     * 加载更多历史信息
+     */
+    @Override
+    public void loadMoreMessage(final String userName) {
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (canLoadMoreMessage) {
+                    EMConversation conversation = EMClient.getInstance().chatManager().getConversation(userName);
+                    //SDK初始化加载的聊天记录为20条，到顶时需要去DB里获取更多
+                    //获取startMsgId之前的pagesize条消息，此方法获取的messages SDK会自动存入到此会话中，
+                    // APP中无需再次把获取到的messages添加到会话中
+                    String startMsgId = mMessage.get(0).getMsgId();//获取第一条数据的id
+                    final List<EMMessage> messages = conversation.loadMoreMsgFromDB(startMsgId, DEFAULT_PAGE_SIZE);
+
+                    mMessage.addAll(0, messages);//将更多数据加入数据集合
+
+                    //如果数据不足20条时
+                    if(messages.size() <DEFAULT_PAGE_SIZE){
+                        canLoadMoreMessage=false;
+                    }
+
+                    //然后跳转到View层加载数据
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatView.onLoadMoreMessageSuccess(messages.size());
+                        }
+                    });
+                }else{
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatView.onNoMoreData();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
     private EMCallBackAdapter mEMCallBackAdapter = new EMCallBackAdapter() {
         @Override
         public void onSuccess() {
@@ -98,6 +145,6 @@ public class ChatPresenterImpl implements ChatPersenter {
             });
         }
     };
-
-
 }
+
+

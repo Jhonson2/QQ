@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dellc.qq.R;
@@ -48,6 +49,7 @@ public class ChatActivity extends BaseActivity implements ChatView{
     private String userName;
 
     private MessageListAdapter mMessageListAdapter;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     public int getLayoutResID() {
@@ -68,15 +70,16 @@ public class ChatActivity extends BaseActivity implements ChatView{
         EMClient.getInstance().chatManager().addMessageListener(mEMMessageListener);//接收消息
 
         initRecyclerView();//初始化聊天界面的RecyclerView
-        mChatPersenter.loadMessage(userName);
-        //加载聊天记录
+        mChatPersenter.loadMessage(userName);//加载聊天记录
     }
 
     private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mLinearLayoutManager=new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mMessageListAdapter=new MessageListAdapter(this,mChatPersenter.getMessage());
         mRecyclerView.setAdapter(mMessageListAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
 
     }
 
@@ -163,6 +166,22 @@ public class ChatActivity extends BaseActivity implements ChatView{
         toast(getString(R.string.load_message_success));
     }
 
+
+    /**
+     * 加载更多数据成功
+     */
+    @Override
+    public void onLoadMoreMessageSuccess(int size) {
+        toast(getString(R.string.load_moore_message_success));
+        mMessageListAdapter.notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(size);//滚动rececyclerView到指定位置size
+    }
+
+    @Override
+    public void onNoMoreData() {
+        toast(getString(R.string.no_more_data));
+    }
+
     /**
      * 设计接送消息的监听
      */
@@ -224,6 +243,26 @@ public class ChatActivity extends BaseActivity implements ChatView{
     private void smoothToBottom() {
         mRecyclerView.scrollToPosition(mChatPersenter.getMessage().size()-1);//自动滚动到底部
     }
+
+    /**
+     *滚动监听
+     */
+    private RecyclerView.OnScrollListener mOnScrollListener=new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+           if(newState==RecyclerView.SCROLL_STATE_IDLE){
+               //滚动结束时，是否加载更多
+               if(mLinearLayoutManager.findFirstVisibleItemPosition()==0){
+                    mChatPersenter.loadMoreMessage(userName);
+               }
+           }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+        }
+    };
 
     @Override
     protected void onDestroy() {

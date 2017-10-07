@@ -7,10 +7,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
 import com.example.dellc.qq.R;
+import com.example.dellc.qq.adapter.EMMessageListenerAdapter;
 import com.example.dellc.qq.factory.FragmentFactory;
+import com.example.dellc.qq.utils.ThreadUtils;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -32,22 +39,50 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         super.init();
-        mFragmentManager=getSupportFragmentManager();
+        mFragmentManager = getSupportFragmentManager();
 
         mBottomBar.setOnTabSelectListener(mOnTabSelectListener);
-        BottomBarTab tabWithId=mBottomBar.getTabWithId(R.id.conversation);
-        tabWithId.setBadgeCount(10);
+
+        EMClient.getInstance().chatManager().addMessageListener(mEMMessageListenerAdapter);
+        updateUnreadCount();
+    }
+
+    private void updateUnreadCount() {
+        BottomBarTab tabWithId = mBottomBar.getTabWithId(R.id.conversation);
+        //从环信中，获取未读消息的总数
+        int unreadMsgsCount = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+        tabWithId.setBadgeCount(unreadMsgsCount);
     }
 
     //tab的事件监听
-    private OnTabSelectListener mOnTabSelectListener=new OnTabSelectListener() {
+    private OnTabSelectListener mOnTabSelectListener = new OnTabSelectListener() {
         @Override
         public void onTabSelected(@IdRes int tabId) {
-           FragmentTransaction fragmentTransaction=mFragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, FragmentFactory.getInstance().getFragment(tabId));
             fragmentTransaction.commit();
         }
     };
 
+    /**
+     * 未读信息tab的监听
+     */
+    private EMMessageListenerAdapter mEMMessageListenerAdapter = new EMMessageListenerAdapter() {
 
+        @Override
+        public void onMessageReceived(List<EMMessage> list) {
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateUnreadCount();
+                }
+            });
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EMClient.getInstance().chatManager().removeMessageListener(mEMMessageListenerAdapter);
+    }
 }

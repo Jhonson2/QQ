@@ -74,6 +74,15 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
         }
     };
 
+    /**
+     * 当聊天界面回到会话界面时，刷新指定未读信息变成已读
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        //重新加载会话数据
+        mConversationPersenter.loadConversation();
+    }
 
     @Override
     public void onDestroy() {

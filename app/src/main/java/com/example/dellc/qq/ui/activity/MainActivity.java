@@ -81,6 +81,12 @@ public class MainActivity extends BaseActivity {
     };
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateUnreadCount();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         EMClient.getInstance().chatManager().removeMessageListener(mEMMessageListenerAdapter);

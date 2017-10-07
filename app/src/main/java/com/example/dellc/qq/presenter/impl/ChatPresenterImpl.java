@@ -69,7 +69,7 @@ public class ChatPresenterImpl implements ChatPersenter {
                     List<EMMessage> messages = conversation.getAllMessages();//获取此会话的所有消息
                     mMessage.addAll(messages); //添加到数据集合
                     //指定会话消息未读数清零
-                    conversation.markAllMessagesAsRead();
+                   // conversation.markAllMessagesAsRead();
                 }
 
                 //通知View层加载聊天记录成功
@@ -79,6 +79,9 @@ public class ChatPresenterImpl implements ChatPersenter {
                         mChatView.onLoadMessageSuccess();
                     }
                 });
+
+                //指定会话消息未读数清零
+                conversation.markAllMessagesAsRead();
             }
         });
 

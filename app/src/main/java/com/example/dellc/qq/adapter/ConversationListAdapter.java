@@ -1,10 +1,13 @@
 package com.example.dellc.qq.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.dellc.qq.app.Constant;
+import com.example.dellc.qq.ui.activity.ChatActivity;
 import com.example.dellc.qq.widget.ConversationItemView;
 import com.hyphenate.chat.EMConversation;
 
@@ -16,11 +19,11 @@ import java.util.List;
 
 public class ConversationListAdapter extends RecyclerView.Adapter<ConversationListAdapter.ConversationItemViewHolder> {
     private Context mContext;
-    private List<EMConversation> mEMConversation;
+    private List<EMConversation> mEMConversations;
 
     public ConversationListAdapter(Context context, List<EMConversation> emConversations) {
         this.mContext=context;
-        this.mEMConversation = emConversations;
+        this.mEMConversations = emConversations;
     }
 
     @Override
@@ -29,15 +32,26 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
     }
 
     @Override
-    public void onBindViewHolder(ConversationItemViewHolder holder, int position) {
-        holder.mConversationItemView.bindView(mEMConversation.get(position));
+    public void onBindViewHolder(ConversationItemViewHolder holder, final int position) {
+        holder.mConversationItemView.bindView(mEMConversations.get(position));
+        //设计Converstatiomitem长按或者是点击事件
+        //点击事件
+        holder.mConversationItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到聊天界面
+                Intent intent=new Intent(mContext, ChatActivity.class);
+                intent.putExtra(Constant.Extra.USER_NAME,mEMConversations.get(position).conversationId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
 
 
     @Override
     public int getItemCount() {
-        return mEMConversation.size();
+        return mEMConversations.size();
     }
 
     public class ConversationItemViewHolder extends RecyclerView.ViewHolder{

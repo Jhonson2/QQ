@@ -1,6 +1,7 @@
 package com.example.dellc.qq.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.dellc.qq.R;
+import com.example.dellc.qq.adapter.ConversationListAdapter;
 import com.example.dellc.qq.presenter.ConversationPersenter;
 import com.example.dellc.qq.presenter.impl.ConversationPresenterImpl;
 import com.example.dellc.qq.view.ConversationView;
@@ -27,6 +29,7 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
     RecyclerView mRecyclerView;
 
     private ConversationPersenter mConversationPersenter;
+    private ConversationListAdapter mConversationListAdapter;
 
     @Override
     public int getLayoutID() {
@@ -38,8 +41,15 @@ public class ConversationFragment extends BaseFragment implements ConversationVi
         super.init();
         mConversationPersenter=new ConversationPresenterImpl(this);
         mTitle.setText(getString(R.string.conversation));
-
+        initRececylerView();
         mConversationPersenter.loadConversation();
+    }
+
+    private void initRececylerView() {
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mConversationListAdapter=new ConversationListAdapter(getContext(),null);
+        mRecyclerView.setAdapter(mConversationListAdapter);
     }
 
     /**
